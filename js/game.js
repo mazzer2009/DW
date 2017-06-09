@@ -29,6 +29,8 @@ class PlayState extends Phaser.State {
 
         this.game.load.spritesheet('coin',`${dir}coins2.png`, 16, 17);
 		this.game.load.spritesheet('nuvem',`${dir}check.png`, 18, 18);
+
+        this.game.load.spritesheet('planta',`${dir}planta.png`, 18, 18);
 		
 		this.game.load.spritesheet('vida',`${dir}vida.png`, 16, 16);
 		
@@ -88,6 +90,13 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1351, 'coin',
                         0, true, false, this.coins, Coin)
     }
+    createPlanta() {
+        this.planta = this.game.add.group()
+        this.map.createFromObjects('Inimigos', 1358, 'planta',
+                        0, true, false, this.planta, Planta)
+    }
+
+
 	createChecks() {
         this.checks = this.game.add.group()
         this.map.createFromObjects('Coins', 1355, 'nuvem',
@@ -171,6 +180,7 @@ class PlayState extends Phaser.State {
 		this.createVida()
         this.createCoins() 
 		this.createChecks()
+        this.createPlanta()
         this.cretateHud()
         this.trophy = new Trophy(this.game)
         this.game.add.existing(this.trophy)
@@ -210,18 +220,15 @@ class PlayState extends Phaser.State {
 			
 		this.game.physics.arcade.overlap(
             this.player, this.vidas, this.collectVida, null, this)
+
+        this.game.physics.arcade.collide(
+            this.player, this.planta, this.playerDied, null, this)
 			
 			
 
 
 			
     }
-	
-	batebala(player, bala){
-		bala.body.allowGravity = true
-		this.playerDied()
-		
-	}
 	collectCheck(player, check) {
         check.destroy() 
 		this.posx=this.player.x
@@ -230,7 +237,6 @@ class PlayState extends Phaser.State {
 
     collectCoin(player, coin) {
         coin.destroy() 
-		this.createBala()
         this.addScore(coin.points)
         this.trophy.show('first death')   
     }
@@ -245,7 +251,6 @@ class PlayState extends Phaser.State {
         this.player.x = this.posx
         this.player.y = this.posy
 		this.addVida(-1)
-		this.createBala()
 		this.camera.shake(0.02, 200)
 		if(this.vidasTotal == 0 ){
 			this.create()
