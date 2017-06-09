@@ -1,14 +1,14 @@
-class Config {}
-Config.WIDTH = 800
-Config.HEIGHT= 480
+class Config {
+}
+Config.WIDTH = 1300
+Config.HEIGHT = 600
 Config.DEBUG = false
 Config.ANTIALIAS = false
 Config.ASSETS = 'assets/'
 
 class Game extends Phaser.Game {
     constructor() {
-        super(Config.WIDTH, Config.HEIGHT, Phaser.CANVAS,
-            'game-container', null, false, Config.ANTIALIAS)
+        super(Config.WIDTH, Config.HEIGHT, Phaser.CANVAS, 'game-container', null, false, Config.ANTIALIAS)
 
         this.state.add('Play', PlayState, false)
         this.state.start('Play')
@@ -20,6 +20,7 @@ class PlayState extends Phaser.State {
     preload() {
         let dir = Config.ASSETS
         // mapa
+
         this.game.load.tilemap('level1', `${dir}mapacerto.json`, 
             null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario',`${dir}mario.png`);
@@ -44,11 +45,11 @@ class PlayState extends Phaser.State {
     createPlayer() {
         this.player = new Player(this.game, this.keys, 0, 0, 'dude')
         this.game.add.existing(this.player)
-        
-        this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1); 
-		this.player.x = 0	
-		this.player.y = 0
-   }
+
+        this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
+        this.player.x = 0
+        this.player.y = 0
+    }
 
     createMap() {
         // chave para o arquivo .json carregado no metodo preload()
@@ -59,8 +60,7 @@ class PlayState extends Phaser.State {
 
         // deve ter o mesmo nome usado na camada criada no Tiled Editor
         this.mapLayer = this.map.createLayer('Camada de Tiles 1')
-	
-		
+
         // os indices sao os mesmos para o tiles no Tiled Editor, acrescidos em 1
         this.map.setCollisionBetween(886, 888, true, 'Camada de Tiles 1')
         this.map.setCollisionBetween(940, 942, true, 'Camada de Tiles 1')
@@ -73,22 +73,18 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(838, 838, true, 'Camada de Tiles 1')
         this.map.setCollisionBetween(1032, 1032, true, 'Camada de Tiles 1')
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1')
-		
-		
-		
-		this.mapLayer.resizeWorld()        
+
+        this.mapLayer.resizeWorld()
 
         this.trapsLayer = this.map.createLayer('Traps')
-        this.map.setCollision([829], true, 'Traps')        
-	    this.map.setCollision([830], true, 'Traps')
-		this.map.setCollision([771,825,879,710], true, 'Traps')
-		
+        this.map.setCollision([829], true, 'Traps')
+        this.map.setCollision([830], true, 'Traps')
+        this.map.setCollision([771, 825, 879, 710], true, 'Traps')
     }
 
     createCoins() {
         this.coins = this.game.add.group()
-        this.map.createFromObjects('Coins', 1351, 'coin',
-                        0, true, false, this.coins, Coin)
+        this.map.createFromObjects('Coins', 1351, 'coin', 0, true, false, this.coins, Coin)
     }
     createPlanta() {
         this.planta = this.game.add.group()
@@ -99,52 +95,37 @@ class PlayState extends Phaser.State {
 
 	createChecks() {
         this.checks = this.game.add.group()
-        this.map.createFromObjects('Coins', 1355, 'nuvem',
-                        0, true, false, this.checks, Nuvem)
+        this.map.createFromObjects('Coins', 1355, 'nuvem', 0, true, false, this.checks, Nuvem)
     }
-	
-	
-	
-	createVida() {
+
+    createVida() {
         this.vidas = this.game.add.group()
-        this.map.createFromObjects('Coins', 1357, 'vida',
-                        0, true, false, this.vidas, Vida)
+        this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida)
     }
-	
-	
-	
-	
-	createBala(){
-		this.bala = this.game.add.group()
-		this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.bala, Bala)
-	}
-	
-	
-	
-	
+
+    createBala() {
+        this.bala = this.game.add.group()
+        this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.bala, Bala)
+    }
 
     cretateHud() {
-        this.scoreText = this.game.add.text(16, 16, '', { fontSize: "16px", fill: '#ffffff' });
+        this.scoreText = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
         this.scoreText.text = "COINS: 0";
-        this.scoreText.fixedToCamera = true;        
-		
-		
-		this.posxy = this.game.add.text(16,37, '', { fontSize: "16px", fill: '#ffffff' });
-		this.posxy.text= "Vidas:3"
-		this.posxy.fixedToCamera = true
-	}
-	
-	
-	
+        this.scoreText.fixedToCamera = true;
+
+        this.posxy = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
+        this.posxy.text = "Vidas:3"
+        this.posxy.fixedToCamera = true
+    }
 
     addScore(amount) {
         this.score += amount
         this.scoreText.text = "COINS: " + this.score
     }
-	
-	 addVida(amount) {
+
+    addVida(amount) {
         this.vidasTotal += amount
-		
+
         this.posxy.text = "Vidas: " + this.vidasTotal
     }
 
@@ -152,25 +133,22 @@ class PlayState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE)
         this.game.stage.backgroundColor = '#000000'
 
-        let bg = this.game.add.tileSprite(0, 0, 
-            Config.WIDTH, Config.HEIGHT, 'background')
+        let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background')
         bg.fixedToCamera = true
-        
+
         this.keys = this.game.input.keyboard.createCursorKeys()
         this.game.physics.arcade.gravity.y = 550
         this.score = 0
-		this.vidasTotal = 3
+        this.vidasTotal = 3
 
-        let fullScreenButton = this.game.input.keyboard.addKey(
-            Phaser.Keyboard.ONE)
+        let fullScreenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE)
         fullScreenButton.onDown.add(this.toogleFullScreen, this)
 
-        let screenshotButton = this.game.input.keyboard.addKey(
-            Phaser.Keyboard.P)
+        let screenshotButton = this.game.input.keyboard.addKey(Phaser.Keyboard.P)
         screenshotButton.onDown.add(this.takeScreenShot, this)
-		
-		this.posy=0
-		this.posx = 0
+
+        this.posy = 0
+        this.posx = 0
         this.createMap()
         this.createPlayer()
 		this.player.position.setTo(0,0)
@@ -190,14 +168,11 @@ class PlayState extends Phaser.State {
         // jQuery
         let imgData = this.game.canvas.toDataURL()
 
-        $('#div-screenshot').append(
-            `<img src=${imgData} alt='game screenshot' class='screenshot'>`
-        )        
+        $('#div-screenshot').append(`<img src=${imgData} alt='game screenshot' class='screenshot'>`)
     }
 
     toogleFullScreen() {
-        this.game.scale.fullScreenScaleMode = 
-            Phaser.ScaleManager.EXACT_FIT;
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         if (this.game.scale.isFullScreen)
             this.game.scale.stopFullScreen()
         else
@@ -238,12 +213,12 @@ class PlayState extends Phaser.State {
     collectCoin(player, coin) {
         coin.destroy() 
         this.addScore(coin.points)
-        this.trophy.show('first death')   
+        this.trophy.show('first death')
     }
-	
-	collectVida(player, vida) {
-        vida.destroy() 
-        this.addVida(vida.points)   
+
+    collectVida(player, vida) {
+        vida.destroy()
+        this.addVida(vida.points)
     }
 
     playerDied() {

@@ -1,13 +1,13 @@
-
 class Trophy extends Phaser.Sprite {
     constructor(game) {
         super(game, 0, 0, '')
 
         this.data = {}
-        this.data['first death'] = 
-        {name: 'first death', xp: 10, 
-        title: 'KEEP CALM AND PLAY',
-        description: 'First death on game'}
+        this.data['first death'] = {
+            name: 'first death', xp: 10,
+            title: 'KEEP CALM AND PLAY',
+            description: 'First death on game'
+        }
 
         this.panels = [] // fila de paineis de trofeus
         this.achieved = [] // lista dos nomes do trofeus jah conquistados
@@ -15,8 +15,7 @@ class Trophy extends Phaser.Sprite {
         //ServerComm.clearTrophy((r) => console.log( JSON.stringify(r) ) ) 
 
         // listar os trofeus no servidor e atualizar this.achieved
-        ServerComm.listTrophy( 
-            (response) => this.updateAchievedTrophies(response) )
+        ServerComm.listTrophy((response) => this.updateAchievedTrophies(response))
     }
 
     updateAchievedTrophies(json) {
@@ -29,10 +28,10 @@ class Trophy extends Phaser.Sprite {
     }
 
     createPanel(trophyName) {
-       let panelY = this.game.height - 74 - this.panels.length * 74
-       let panel = this.game.add.sprite(this.game.width - 250,
-                        panelY, 'trophy')
-        panel.fixedToCamera = true 
+        let panelY = this.game.height - 74 - this.panels.length * 74
+        let panel = this.game.add.sprite(this.game.width - 250,
+                panelY, 'trophy')
+        panel.fixedToCamera = true
         //panel.alpha = 0
 
         let labelX = 66
@@ -45,8 +44,8 @@ class Trophy extends Phaser.Sprite {
 
         // define label
         label.text = this.data[trophyName].title + '   +'
-        label.text+= this.data[trophyName].xp + '\n\n'
-        label.text+= this.data[trophyName].description
+        label.text += this.data[trophyName].xp + '\n\n'
+        label.text += this.data[trophyName].description
 
         return panel
     }
@@ -54,9 +53,9 @@ class Trophy extends Phaser.Sprite {
     show(trophyName) {
         if (this.achieved.includes(trophyName))
             return
-            
-        ServerComm.addTrophy(this.data['first death'], 
-            (response) => this.onServerResponse(response, trophyName) )
+
+        ServerComm.addTrophy(this.data['first death'],
+                (response) => this.onServerResponse(response, trophyName))
     }
 
     onServerResponse(response, trophyName) {
@@ -69,23 +68,20 @@ class Trophy extends Phaser.Sprite {
         let panel = this.createPanel(trophyName)
         this.panels.push(panel)
         // agenda a destruicao do panel
-        this.game.time.events.add(Phaser.Timer.SECOND * 3,
-            this.removePanel, this)
-        
+        this.game.time.events.add(Phaser.Timer.SECOND * 3, this.removePanel, this)
+
         this.addTrophyOnPage(trophyName)
     }
 
     addTrophyOnPage(trophyName) {
-/*
-        // DOM
-        let divTrophy = document.getElementById('div-trophy')
-        divTrophy.innerHTML += 
-        '<p>' + JSON.stringify(this.data['first death']) + '</p>'
-*/
+        /*
+         // DOM
+         let divTrophy = document.getElementById('div-trophy')
+         divTrophy.innerHTML += 
+         '<p>' + JSON.stringify(this.data['first death']) + '</p>'
+         */
         // jQuery
-        $('#div-trophy').append(
-            '<p>' + JSON.stringify(this.data[trophyName]) + '</p>'
-        )
+//        $('#div-trophy').append('<p>' + JSON.stringify(this.data[trophyName]) + '</p>')
     }
 
     removePanel() {
@@ -96,18 +92,15 @@ class Trophy extends Phaser.Sprite {
 
 class ServerComm {
     static addTrophy(data, callback) {
-        ServerComm.sendRequestTrophy(
-            'john_doe', 'add-trophy', data, callback)
+        ServerComm.sendRequestTrophy('john_doe', 'add-trophy', data, callback)
     }
 
     static listTrophy(callback) {
-        ServerComm.sendRequestTrophy(
-            'john_doe', 'list-trophy', '', callback)
+        ServerComm.sendRequestTrophy('john_doe', 'list-trophy', '', callback)
     }
 
     static clearTrophy(callback) {
-        ServerComm.sendRequestTrophy(
-            'john_doe', 'clear-trophy', '', callback)
+        ServerComm.sendRequestTrophy('john_doe', 'clear-trophy', '', callback)
     }
 
     // metodo generico a ser usado por todas as 
@@ -122,14 +115,13 @@ class ServerComm {
     }
 
     static ajaxPost(data, callback) {
-        let url = 'http://localhost:8000'
+        let url = 'http://localhost:8080/game'
         $.post(url, JSON.stringify(data))
-            .done(function(data, status) {
-                let jsonObj = JSON.parse(data)
-                callback(jsonObj)
-            })
-            .fail(function(jqXHR, status, errorThrown) {
-                console.log('ERROR: cannot reach game server')
-            })
+                .done(function (data, status) {
+                    callback(data)
+                })
+                .fail(function (jqXHR, status, errorThrown) {
+                    console.log('ERROR: cannot reach game server')
+                })
     }
 }
