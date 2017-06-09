@@ -20,27 +20,17 @@ class PlayState extends Phaser.State {
     preload() {
         let dir = Config.ASSETS
         // mapa
-
-        this.game.load.tilemap('level1', `${dir}mapacerto.json`, 
-            null, Phaser.Tilemap.TILED_JSON);
-        this.game.load.image('mario',`${dir}mario.png`);
-    
-        this.game.load.spritesheet('dude',`${dir}dude.png`, 32, 48);
-        this.game.load.image('background',`${dir}back2.png`);
-
-        this.game.load.spritesheet('coin',`${dir}coins2.png`, 16, 17);
-		this.game.load.spritesheet('nuvem',`${dir}check.png`, 18, 18);
-
-        this.game.load.spritesheet('planta',`${dir}planta.png`, 18, 18);
-		
-		this.game.load.spritesheet('vida',`${dir}vida.png`, 16, 16);
-		
-		
-		this.game.load.spritesheet('bala',`${dir}bala.png`, 21, 20);
-		
-        
-        this.game.load.image('trophy',`${dir}trophy-200x64.png`);
-    } 
+        this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.image('mario', `${dir}mario.png`);
+        this.game.load.spritesheet('dude', `${dir}dude.png`, 32, 48);
+        this.game.load.image('background', `${dir}back2.png`);
+        this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
+        this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
+        this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
+        this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
+        this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
+        this.game.load.image('trophy', `${dir}trophy-200x64.png`);
+    }
 
     createPlayer() {
         this.player = new Player(this.game, this.keys, 0, 0, 'dude')
@@ -88,12 +78,10 @@ class PlayState extends Phaser.State {
     }
     createPlanta() {
         this.planta = this.game.add.group()
-        this.map.createFromObjects('Inimigos', 1358, 'planta',
-                        0, true, false, this.planta, Planta)
+        this.map.createFromObjects('Inimigos', 1358, 'planta', 0, true, false, this.planta, Planta)
     }
 
-
-	createChecks() {
+    createChecks() {
         this.checks = this.game.add.group()
         this.map.createFromObjects('Coins', 1355, 'nuvem', 0, true, false, this.checks, Nuvem)
     }
@@ -125,7 +113,6 @@ class PlayState extends Phaser.State {
 
     addVida(amount) {
         this.vidasTotal += amount
-
         this.posxy.text = "Vidas: " + this.vidasTotal
     }
 
@@ -151,13 +138,13 @@ class PlayState extends Phaser.State {
         this.posx = 0
         this.createMap()
         this.createPlayer()
-		this.player.position.setTo(0,0)
-		this.player.x=0
-		this.player.y = 0
-		this.createBala()
-		this.createVida()
-        this.createCoins() 
-		this.createChecks()
+        this.player.position.setTo(0, 0)
+        this.player.x = 0
+        this.player.y = 0
+        this.createBala()
+        this.createVida()
+        this.createCoins()
+        this.createChecks()
         this.createPlanta()
         this.cretateHud()
         this.trophy = new Trophy(this.game)
@@ -173,45 +160,30 @@ class PlayState extends Phaser.State {
 
     toogleFullScreen() {
         this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        if (this.game.scale.isFullScreen)
+        if (this.game.scale.isFullScreen) {
             this.game.scale.stopFullScreen()
-        else
+        } else {
             this.game.scale.startFullScreen(false)
+        }
     }
 
     update() {
         this.game.physics.arcade.collide(this.player, this.mapLayer)
-        this.game.physics.arcade.collide(
-            this.player, this.trapsLayer, this.playerDied, null, this)
-
-        this.game.physics.arcade.overlap(
-            this.player, this.coins, this.collectCoin, null, this)
-			
-        this.game.physics.arcade.overlap(
-            this.player, this.checks, this.collectCheck, null, this)
-			
-		this.game.physics.arcade.collide(
-            this.player, this.bala, this.batebala, null, this)
-			
-		this.game.physics.arcade.overlap(
-            this.player, this.vidas, this.collectVida, null, this)
-
-        this.game.physics.arcade.collide(
-            this.player, this.planta, this.playerDied, null, this)
-			
-			
-
-
-			
+        this.game.physics.arcade.collide(this.player, this.trapsLayer, this.playerDied, null, this)
+        this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this)
+        this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this)
+        this.game.physics.arcade.collide(this.player, this.bala, this.batebala, null, this)
+        this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this)
+        this.game.physics.arcade.collide(this.player, this.planta, this.playerDied, null, this)
     }
-	collectCheck(player, check) {
-        check.destroy() 
-		this.posx=this.player.x
-		this.posy=this.player.y
-		}
+    collectCheck(player, check) {
+        check.destroy()
+        this.posx = this.player.x
+        this.posy = this.player.y
+    }
 
     collectCoin(player, coin) {
-        coin.destroy() 
+        coin.destroy()
         this.addScore(coin.points)
         this.trophy.show('first death')
     }
@@ -225,10 +197,10 @@ class PlayState extends Phaser.State {
         console.log('player died')
         this.player.x = this.posx
         this.player.y = this.posy
-		this.addVida(-1)
-		this.camera.shake(0.02, 200)
-		if(this.vidasTotal == 0 ){
-			this.create()
+        this.addVida(-1)
+        this.camera.shake(0.02, 200)
+        if (this.vidasTotal == 0) {
+            this.create()
         }
     }
 
