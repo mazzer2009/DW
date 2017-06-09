@@ -1,15 +1,14 @@
 class Config {
 }
-Config.WIDTH = 800
-Config.HEIGHT = 480
+Config.WIDTH = 1300
+Config.HEIGHT = 720
 Config.DEBUG = false
 Config.ANTIALIAS = false
 Config.ASSETS = 'assets/'
 
 class Game extends Phaser.Game {
     constructor() {
-        super(Config.WIDTH, Config.HEIGHT, Phaser.CANVAS,
-                'game-container', null, false, Config.ANTIALIAS)
+        super(Config.WIDTH, Config.HEIGHT, Phaser.CANVAS, 'game-container', null, false, Config.ANTIALIAS)
 
         this.state.add('Play', PlayState, false)
         this.state.start('Play')
@@ -21,22 +20,14 @@ class PlayState extends Phaser.State {
     preload() {
         let dir = Config.ASSETS
         // mapa
-        this.game.load.tilemap('level1', `${dir}mapacerto.json`,
-                null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
-
         this.game.load.spritesheet('dude', `${dir}dude.png`, 32, 48);
         this.game.load.image('background', `${dir}back2.png`);
-
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
-
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
-
-
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
-
-
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
     }
 
@@ -59,7 +50,6 @@ class PlayState extends Phaser.State {
         // deve ter o mesmo nome usado na camada criada no Tiled Editor
         this.mapLayer = this.map.createLayer('Camada de Tiles 1')
 
-
         // os indices sao os mesmos para o tiles no Tiled Editor, acrescidos em 1
         this.map.setCollisionBetween(886, 888, true, 'Camada de Tiles 1')
         this.map.setCollisionBetween(940, 942, true, 'Camada de Tiles 1')
@@ -73,32 +63,26 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(1032, 1032, true, 'Camada de Tiles 1')
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1')
 
-
-
         this.mapLayer.resizeWorld()
 
         this.trapsLayer = this.map.createLayer('Traps')
         this.map.setCollision([829], true, 'Traps')
         this.map.setCollision([830], true, 'Traps')
         this.map.setCollision([771, 825, 879, 710], true, 'Traps')
-
     }
 
     createCoins() {
         this.coins = this.game.add.group()
-        this.map.createFromObjects('Coins', 1351, 'coin',
-                0, true, false, this.coins, Coin)
+        this.map.createFromObjects('Coins', 1351, 'coin', 0, true, false, this.coins, Coin)
     }
     createChecks() {
         this.checks = this.game.add.group()
-        this.map.createFromObjects('Coins', 1355, 'nuvem',
-                0, true, false, this.checks, Nuvem)
+        this.map.createFromObjects('Coins', 1355, 'nuvem', 0, true, false, this.checks, Nuvem)
     }
 
     createVida() {
         this.vidas = this.game.add.group()
-        this.map.createFromObjects('Coins', 1357, 'vida',
-                0, true, false, this.vidas, Vida)
+        this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida)
     }
 
     createBala() {
@@ -110,7 +94,6 @@ class PlayState extends Phaser.State {
         this.scoreText = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
         this.scoreText.text = "COINS: 0";
         this.scoreText.fixedToCamera = true;
-
 
         this.posxy = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
         this.posxy.text = "Vidas:3"
@@ -132,8 +115,7 @@ class PlayState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE)
         this.game.stage.backgroundColor = '#000000'
 
-        let bg = this.game.add.tileSprite(0, 0,
-                Config.WIDTH, Config.HEIGHT, 'background')
+        let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background')
         bg.fixedToCamera = true
 
         this.keys = this.game.input.keyboard.createCursorKeys()
@@ -141,12 +123,10 @@ class PlayState extends Phaser.State {
         this.score = 0
         this.vidasTotal = 3
 
-        let fullScreenButton = this.game.input.keyboard.addKey(
-                Phaser.Keyboard.ONE)
+        let fullScreenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE)
         fullScreenButton.onDown.add(this.toogleFullScreen, this)
 
-        let screenshotButton = this.game.input.keyboard.addKey(
-                Phaser.Keyboard.P)
+        let screenshotButton = this.game.input.keyboard.addKey(Phaser.Keyboard.P)
         screenshotButton.onDown.add(this.takeScreenShot, this)
 
         this.posy = 0
@@ -169,14 +149,11 @@ class PlayState extends Phaser.State {
         // jQuery
         let imgData = this.game.canvas.toDataURL()
 
-        $('#div-screenshot').append(
-                `<img src=${imgData} alt='game screenshot' class='screenshot'>`
-                )
+        $('#div-screenshot').append(`<img src=${imgData} alt='game screenshot' class='screenshot'>`)
     }
 
     toogleFullScreen() {
-        this.game.scale.fullScreenScaleMode =
-                Phaser.ScaleManager.EXACT_FIT;
+        this.game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         if (this.game.scale.isFullScreen)
             this.game.scale.stopFullScreen()
         else
@@ -185,31 +162,16 @@ class PlayState extends Phaser.State {
 
     update() {
         this.game.physics.arcade.collide(this.player, this.mapLayer)
-        this.game.physics.arcade.collide(
-                this.player, this.trapsLayer, this.playerDied, null, this)
-
-        this.game.physics.arcade.overlap(
-                this.player, this.coins, this.collectCoin, null, this)
-
-        this.game.physics.arcade.overlap(
-                this.player, this.checks, this.collectCheck, null, this)
-
-        this.game.physics.arcade.collide(
-                this.player, this.bala, this.batebala, null, this)
-
-        this.game.physics.arcade.overlap(
-                this.player, this.vidas, this.collectVida, null, this)
-
-
-
-
-
+        this.game.physics.arcade.collide(this.player, this.trapsLayer, this.playerDied, null, this)
+        this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this)
+        this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this)
+        this.game.physics.arcade.collide(this.player, this.bala, this.batebala, null, this)
+        this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this)
     }
 
     batebala(player, bala) {
         bala.body.allowGravity = true
         this.playerDied()
-
     }
     collectCheck(player, check) {
         check.destroy()
