@@ -53,9 +53,9 @@ class Trophy extends Phaser.Sprite {
     }
 
     show(trophyName) {
-        if (this.achieved.includes(trophyName))
-            ;
-        return;
+        if (this.achieved.includes(trophyName)){
+            return;
+        }
 
         ServerComm.addTrophy(this.data['first death'], (response) => this.onServerResponse(response, trophyName))
     }
