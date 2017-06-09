@@ -68,8 +68,7 @@ class Trophy extends Phaser.Sprite {
         let panel = this.createPanel(trophyName)
         this.panels.push(panel)
         // agenda a destruicao do panel
-        this.game.time.events.add(Phaser.Timer.SECOND * 3,
-                this.removePanel, this)
+        this.game.time.events.add(Phaser.Timer.SECOND * 3, this.removePanel, this)
 
         this.addTrophyOnPage(trophyName)
     }
@@ -82,7 +81,7 @@ class Trophy extends Phaser.Sprite {
          '<p>' + JSON.stringify(this.data['first death']) + '</p>'
          */
         // jQuery
-        $('#div-trophy').append('<p>' + JSON.stringify(this.data[trophyName]) + '</p>')
+//        $('#div-trophy').append('<p>' + JSON.stringify(this.data[trophyName]) + '</p>')
     }
 
     removePanel() {
@@ -119,9 +118,7 @@ class ServerComm {
         let url = 'http://localhost:8080/game'
         $.post(url, JSON.stringify(data))
                 .done(function (data, status) {
-                    console.log(data);
-                    let jsonObj = JSON.parse(data)
-                    callback(jsonObj)
+                    callback(data)
                 })
                 .fail(function (jqXHR, status, errorThrown) {
                     console.log('ERROR: cannot reach game server')
