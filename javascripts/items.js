@@ -1,4 +1,3 @@
-
 class Coin extends Phaser.Sprite {
     constructor(game, x, y, asset) {
         super(game, x, y, asset)
@@ -7,8 +6,8 @@ class Coin extends Phaser.Sprite {
         this.autoCull = true
         this.points = 1
 
-     //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
-       // this.animations.play('spin')
+        //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
+        // this.animations.play('spin')
     }
 }
 
@@ -20,8 +19,8 @@ class Nuvem extends Phaser.Sprite {
         this.autoCull = true
         this.points = 1
 
-     //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
-       // this.animations.play('spin')
+        //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
+        // this.animations.play('spin')
     }
 }
 
@@ -33,11 +32,11 @@ class Vida extends Phaser.Sprite {
         this.autoCull = true
         this.points = 1
 
-     //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
-       // this.animations.play('spin')
+        //   this.animations.add('spin', [1351,1352,1353,1354], 1	0, true)
+        // this.animations.play('spin')
     }
 }
-	
+
 class Bala extends Phaser.Sprite {
     constructor(game, x, y, asset) {
         super(game, x, y, asset)
@@ -45,19 +44,16 @@ class Bala extends Phaser.Sprite {
         this.body.allowGravity = false
         this.autoCull = true
         this.points = 1
-		this.body.velocity.x =-250
-		//this.update()
-		
-		
-
-     //   this.animations.add('vai', [this.body.velo], 1	0, true)
-       // this.animations.play('spin')
+        this.body.velocity.x = -250
+        //this.update()
+        //   this.animations.add('vai', [this.body.velo], 1	0, true)
+        // this.animations.play('spin')
     }
-	
-	update(){
-		if(this.body.x ==26){
-			this.body.x = 146
-		}
-	}
-	
+
+    update() {
+        if (this.body.x == 26) {
+            this.body.x = 146
+        }
+    }
+
 }
