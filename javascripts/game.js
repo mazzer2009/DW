@@ -151,6 +151,7 @@ class PlayState extends Phaser.State {
         this.posx = 0
         this.createMap()
         this.createPlayer()
+        this.createPlanta()
 		this.player.position.setTo(0,0)
 		this.player.x=0
 		this.player.y = 0
@@ -158,7 +159,6 @@ class PlayState extends Phaser.State {
 		this.createVida()
         this.createCoins() 
 		this.createChecks()
-        this.createPlanta()
         this.cretateHud()
         this.trophy = new Trophy(this.game)
         this.game.add.existing(this.trophy)
@@ -191,7 +191,7 @@ class PlayState extends Phaser.State {
             this.player, this.checks, this.collectCheck, null, this)
 			
 		this.game.physics.arcade.collide(
-            this.player, this.bala, this.batebala, null, this)
+            this.player, this.bala, this.playerDied, null, this)
 			
 		this.game.physics.arcade.overlap(
             this.player, this.vidas, this.collectVida, null, this)
