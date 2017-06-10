@@ -158,10 +158,19 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
         this.game.physics.arcade.collide(this.player, this.planta, this.playerDied, null, this);
     }
+
     collectCheck(player, check) {
         check.destroy();
         this.posx = this.player.x;
         this.posy = this.player.y;
+
+        request = {
+            id: player.id,
+            game: null,
+            op: "save-state",
+            data: {x: this.player.x, y: this.player.y}
+        };
+        ServerComm.ajaxPost(request);
     }
 
     collectCoin(player, coin) {
@@ -176,7 +185,6 @@ class PlayState extends Phaser.State {
     }
 
     playerDied() {
-        console.log('player died');
         this.player.x = this.posx;
         this.player.y = this.posy;
         this.addVida(-1);

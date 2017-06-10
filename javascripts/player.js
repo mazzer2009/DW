@@ -1,5 +1,7 @@
 var sKey;
+
 class Player extends Phaser.Sprite {
+
     constructor(game, cursors, x, y, asset) {
         super(game, x, y, asset);
         this.keys = cursors;
@@ -16,6 +18,8 @@ class Player extends Phaser.Sprite {
         jumpButton.onDown.add(this.jump, this);
 
         sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
+        
+        this.id = "rmeloca";
     }
 
     jump() {

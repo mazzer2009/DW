@@ -16,6 +16,7 @@ class ServerComm {
     static sendRequestTrophy(user, opName, opData, callback) {
         let data = {
             id: user,
+            game: null,
             op: opName,
             data: opData
         };
