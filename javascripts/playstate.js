@@ -15,12 +15,9 @@ class PlayState extends Phaser.State {
     }
 
     createPlayer() {
-        this.player = new Player(this.game, this.keys, 0, 0, 'dude');
+        this.player = new Player(this.game, this.keys, 5, 5, 'dude');
         this.game.add.existing(this.player);
-
         this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
-        this.player.x = 0;
-        this.player.y = 0;
     }
 
     createMap() {
@@ -79,23 +76,23 @@ class PlayState extends Phaser.State {
     }
 
     cretateHud() {
-        this.scoreText = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
-        this.scoreText.text = "COINS: 0";
-        this.scoreText.fixedToCamera = true;
+        this.infoScore = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
+        this.infoScore.text = "COINS: 0";
+        this.infoScore.fixedToCamera = true;
 
-        this.posxy = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
-        this.posxy.text = "Vidas:3";
-        this.posxy.fixedToCamera = true
+        this.infoVidas = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
+        this.infoVidas.text = "Vidas:3";
+        this.infoVidas.fixedToCamera = true
     }
 
     addScore(amount) {
         this.score += amount;
-        this.scoreText.text = "COINS: " + this.score;
+        this.infoScore.text = "COINS: " + this.score;
     }
 
     addVida(amount) {
         this.vidasTotal += amount;
-        this.posxy.text = "Vidas: " + this.vidasTotal;
+        this.infoVidas.text = "Vidas: " + this.vidasTotal;
     }
 
     create() {
@@ -116,14 +113,9 @@ class PlayState extends Phaser.State {
         let screenshotButton = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
         screenshotButton.onDown.add(this.takeScreenShot, this);
 
-        this.posy = 0;
-        this.posx = 0;
         this.createMap();
         this.createPlayer();
         this.createPlanta();
-        this.player.position.setTo(0, 0);
-        this.player.x = 0;
-        this.player.y = 0;
         this.createBala();
         this.createVida();
         this.createCoins();
@@ -156,13 +148,13 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this);
         this.game.physics.arcade.collide(this.player, this.bala, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
-        this.game.physics.arcade.collide(this.player, this.planta, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
     }
 
     collectCheck(player, check) {
         check.destroy();
-        this.posx = this.player.x;
-        this.posy = this.player.y;
+        player.posicao.x = this.player.x;
+        player.posicao.y = this.player.y;
 
         request = {
             id: player.id,
@@ -185,8 +177,8 @@ class PlayState extends Phaser.State {
     }
 
     playerDied() {
-        this.player.x = this.posx;
-        this.player.y = this.posy;
+        this.player.x = this.player.posicao.x;
+        this.player.y = this.player.posicao.y;
         this.addVida(-1);
         this.camera.shake(0.02, 200);
         if (this.vidasTotal == 0) {

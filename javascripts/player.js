@@ -4,6 +4,9 @@ class Player extends Phaser.Sprite {
 
     constructor(game, cursors, x, y, asset) {
         super(game, x, y, asset);
+        this.posicao={}
+        this.posicao.x = 5
+        this.posicao.y = 5
         this.keys = cursors;
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.collideWorldBounds = true;
