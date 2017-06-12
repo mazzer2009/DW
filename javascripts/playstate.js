@@ -12,6 +12,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
         this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
+        this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
@@ -83,6 +84,11 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.bala, Bala);
     }
 
+    createNextlevel() {
+        this.nextlevel = this.game.add.group();
+        this.map.createFromObjects('Next level', 1368, 'nextlevel', 0, true, false, this.nextlevel, Nextlevel);
+    }
+
     createEnemies() {
         this.voadores = this.game.add.group();
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
@@ -136,9 +142,12 @@ class PlayState extends Phaser.State {
         this.createVida();
         this.createCoins();
         this.createChecks();
+        this.createNextlevel();
         this.cretateHud();
         this.trophy = new Trophy(this.game);
         this.game.add.existing(this.trophy);
+        this.levelCleared = false
+
     }
 
     takeScreenShot() {
@@ -166,6 +175,25 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
         this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
+    }
+
+     loadNextLevel() {
+        if (!this.levelCleared) {
+            this.levelCleared = true
+            this.game.camera.fade(0x000000, 1000)
+            this.game.camera.onFadeComplete.add(this.changeLevel, this)
+        }
+    }
+
+    changeLevel() {
+        Config.LEVEL += 1
+        Config.SCORE = this.score
+        this.game.camera.onFadeComplete.removeAll(this)// bug
+        if (Config.LEVEL <= 2)
+            this.game.state.restart()
+        else
+            this.game.state.start('Title')
     }
 
     collectCheck(player, check) {
@@ -174,7 +202,7 @@ class PlayState extends Phaser.State {
         player.posicao.y = this.player.y;
 
         request = {
-            id: player.id,
+            id: 'player.id',
             game: null,
             op: "save-state",
             data: {x: this.player.x, y: this.player.y}
