@@ -11,6 +11,9 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
+        this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
+        this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
+
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
     }
 
@@ -60,6 +63,11 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Inimigos', 1358, 'planta', 0, true, false, this.planta, Planta);
     }
 
+    createLava() {
+        this.lava = this.game.add.group();
+        this.map.createFromObjects('Lava', 1361, 'lava', 0, true, false, this.lava, Lava);
+    }
+
     createChecks() {
         this.checks = this.game.add.group();
         this.map.createFromObjects('Coins', 1355, 'nuvem', 0, true, false, this.checks, Nuvem);
@@ -73,6 +81,12 @@ class PlayState extends Phaser.State {
     createBala() {
         this.bala = this.game.add.group();
         this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.bala, Bala);
+    }
+
+    createEnemies() {
+        this.voadores = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
+        this.voadores.forEach( (voador) => voador.start() ) 
     }
 
     cretateHud() {
@@ -114,8 +128,10 @@ class PlayState extends Phaser.State {
         screenshotButton.onDown.add(this.takeScreenShot, this);
 
         this.createMap();
+        this.createEnemies();
         this.createPlayer();
         this.createPlanta();
+        this.createLava();
         this.createBala();
         this.createVida();
         this.createCoins();
@@ -146,9 +162,10 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.trapsLayer, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
         this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this);
-        this.game.physics.arcade.collide(this.player, this.bala, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.bala, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
         this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
     }
 
     collectCheck(player, check) {
