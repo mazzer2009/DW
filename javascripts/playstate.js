@@ -7,7 +7,7 @@ class PlayState extends Phaser.State {
         //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
         this.game.load.spritesheet('dude', `${dir}dude.png`, 32, 48);
-        this.game.load.image('background', `${dir}background1.png`);
+        this.game.load.image('background', `${dir}backteste.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
@@ -51,10 +51,10 @@ class PlayState extends Phaser.State {
 
         this.mapLayer.resizeWorld();
 
-        //this.trapsLayer = this.map.createLayer('Traps');
-        //this.map.setCollision([829], true, 'Traps');
-        //this.map.setCollision([830], true, 'Traps');
-        //this.map.setCollision([771, 825, 879, 710], true, 'Traps');
+        this.trapsLayer = this.map.createLayer('Traps');
+        this.map.setCollision([829], true, 'Traps');
+        this.map.setCollision([830], true, 'Traps');
+        this.map.setCollision([771, 825, 879, 710], true, 'Traps');
     }
 
     createCoins() {
@@ -82,9 +82,12 @@ class PlayState extends Phaser.State {
     }
 
     createBala() {
-        this.bala = this.game.add.group();
-        this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.bala, Bala);
+        this.balas = this.game.add.group();
+        this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.balas, Bala);
+        //this.balas.forEach( (bala) => bala.start() )
+        //setInterval(this.createBala(), 5000); 
     }
+
 
     createNextlevel() {
         this.nextlevel = this.game.add.group();
@@ -103,7 +106,7 @@ class PlayState extends Phaser.State {
         this.infoScore.fixedToCamera = true;
 
         this.infoVidas = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
-        this.infoVidas.text = "Vidas:3";
+        this.infoVidas.text = "Vidas:"+Config.VIDAS;
         this.infoVidas.fixedToCamera = true
     }
 
@@ -121,7 +124,8 @@ class PlayState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.stage.backgroundColor = '#000000';
 
-        let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
+       // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
+        let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, 1000, 'background');
         bg.fixedToCamera = true;
 
         this.keys = this.game.input.keyboard.createCursorKeys();
@@ -136,10 +140,10 @@ class PlayState extends Phaser.State {
         screenshotButton.onDown.add(this.takeScreenShot, this);
 
         this.createMap();
-        this.createEnemies();
         this.createPlayer();
         this.createPlanta();
         this.createLava();
+        this.createEnemies();
         this.createBala();
         this.createVida();
         this.createCoins();
@@ -178,6 +182,7 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
+       
     }
 
      loadNextLevel() {
@@ -191,6 +196,7 @@ class PlayState extends Phaser.State {
     changeLevel() {
         Config.LEVEL += 1
         Config.SCORE = this.score
+        Config.VIDAS = this.vidasTotal
         this.game.camera.onFadeComplete.removeAll(this)// bug
         if (Config.LEVEL <= 2)
             this.game.state.restart()
@@ -203,13 +209,13 @@ class PlayState extends Phaser.State {
         player.posicao.x = this.player.x;
         player.posicao.y = this.player.y;
 
-        request = {
+        /*this.request = {
             id: 'player.id',
             game: null,
             op: "save-state",
             data: {x: this.player.x, y: this.player.y}
         };
-        ServerComm.ajaxPost(request);
+        ServerComm.ajaxPost(request);*/
     }
 
     collectCoin(player, coin) {
@@ -239,6 +245,8 @@ class PlayState extends Phaser.State {
         }
     }
 } 
+
+setTimeout(this.createBala,100);
 
 window.onload = function() {
     // funciona como singleton
