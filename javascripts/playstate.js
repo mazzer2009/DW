@@ -2,10 +2,12 @@ class PlayState extends Phaser.State {
     preload() {
         let dir = Config.ASSETS;
         // mapa
-        this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('level1', `${dir}level${Config.LEVEL}.json`, 
+            null, Phaser.Tilemap.TILED_JSON);
+        //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
         this.game.load.spritesheet('dude', `${dir}dude.png`, 32, 48);
-        this.game.load.image('background', `${dir}back2.png`);
+        this.game.load.image('background', `${dir}background1.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
@@ -49,10 +51,10 @@ class PlayState extends Phaser.State {
 
         this.mapLayer.resizeWorld();
 
-        this.trapsLayer = this.map.createLayer('Traps');
-        this.map.setCollision([829], true, 'Traps');
-        this.map.setCollision([830], true, 'Traps');
-        this.map.setCollision([771, 825, 879, 710], true, 'Traps');
+        //this.trapsLayer = this.map.createLayer('Traps');
+        //this.map.setCollision([829], true, 'Traps');
+        //this.map.setCollision([830], true, 'Traps');
+        //this.map.setCollision([771, 825, 879, 710], true, 'Traps');
     }
 
     createCoins() {
@@ -236,4 +238,9 @@ class PlayState extends Phaser.State {
             this.game.debug.body(this.player);
         }
     }
+} 
+
+window.onload = function() {
+    // funciona como singleton
+    const GAME = new Game()
 }
