@@ -6,7 +6,7 @@ class PlayState extends Phaser.State {
             null, Phaser.Tilemap.TILED_JSON);
         //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
-        this.game.load.spritesheet('dude', `${dir}mariodude.png`, 16, 24);
+        this.game.load.spritesheet('dude', `${dir}mariodude.png`, 21, 35);
         this.game.load.image('background', `${dir}backteste.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
