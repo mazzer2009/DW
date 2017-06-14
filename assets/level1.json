@@ -15,7 +15,6 @@
         }, 
         {
          "draworder":"topdown",
-         "height":50,
          "name":"Lava",
          "objects":[
                 {
@@ -549,13 +548,11 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":200,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":0,
          "name":"Inimigos",
          "objects":[
                 {
@@ -813,13 +810,11 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
-         "height":0,
          "name":"Coins",
          "objects":[
                 {
@@ -3609,7 +3604,6 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":0,
          "x":0,
          "y":0
         }, 
@@ -3626,7 +3620,6 @@
         }, 
         {
          "draworder":"topdown",
-         "height":50,
          "name":"Next level",
          "objects":[
                 {
@@ -3644,13 +3637,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":200,
          "x":0,
          "y":0
         }],
  "nextobjectid":715,
  "orientation":"orthogonal",
  "renderorder":"right-down",
+ "tiledversion":"1.0.1",
  "tileheight":16,
  "tilesets":[
         {
@@ -3771,6 +3764,7 @@
          "tilewidth":24
         }],
  "tilewidth":16,
+ "type":"map",
  "version":1,
  "width":200
 }

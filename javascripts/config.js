@@ -10,3 +10,4 @@ Config.ASSETS = 'assets/'
 Config.LEVEL = 1
 Config.SCORE = 0
 Config.VIDAS = 3
+Config.SCREENSHOTS= [];

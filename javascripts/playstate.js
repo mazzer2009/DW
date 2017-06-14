@@ -6,7 +6,7 @@ class PlayState extends Phaser.State {
             null, Phaser.Tilemap.TILED_JSON);
         //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
-        this.game.load.spritesheet('dude', `${dir}dude.png`, 32, 48);
+        this.game.load.spritesheet('dude', `${dir}mariodude.png`, 16, 24);
         this.game.load.image('background', `${dir}backteste.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
@@ -159,8 +159,23 @@ class PlayState extends Phaser.State {
     takeScreenShot() {
         // jQuery
         let imgData = this.game.canvas.toDataURL();
+        Config.SCREENSHOTS.add(imgData);
 
-        $('#div-screenshot').append(`<img src=${imgData} alt='game screenshot' class='screenshot'>`);
+        if (Config.SCREENSHOTS.length==0) {
+            $('#div-screenshot').append('<p>There are no screenshots.</p>')
+        }else{
+            Config.SCREENSHOTS.forEach(function (item){
+                console.log(item);
+                $('#div-screenshot').append(`<img src=${item} alt='game screenshot' class='screenshot'>`);
+            });
+            for(var i =0; i<Config.SCREENSHOTS.length; i++){
+                $('#div-screenshot').append(`<img src=${Config.SCREENSHOTS[i]} alt='game screenshot' class='screenshot'>`);
+                
+            }
+
+        }
+
+
     }
 
     toogleFullScreen() {
