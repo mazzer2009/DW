@@ -8,5 +8,3 @@ class Game extends Phaser.Game {
         
     }
 }
-
-//const GAME = new Game();
