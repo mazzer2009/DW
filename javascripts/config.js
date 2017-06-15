@@ -1,6 +1,6 @@
 class Config {}
 Config.RATIO = 1.77
-Config.HEIGHT= 480
+Config.HEIGHT= 340
 Config.CONTAINER_HEIGHT = 480
 Config.WIDTH = Config.HEIGHT * Config.RATIO
 Config.CONTAINER_WIDTH  = Config.CONTAINER_HEIGHT * Config.RATIO

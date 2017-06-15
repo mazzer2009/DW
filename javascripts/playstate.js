@@ -12,6 +12,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
+        this.game.load.spritesheet('canhao', `${dir}mario.png`, 16, 16);
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
         this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
         this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
@@ -66,6 +67,13 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Inimigos', 1358, 'planta', 0, true, false, this.planta, Planta);
     }
 
+    createCanhao() {
+        this.canhoes = this.game.add.group();
+        this.map.createFromObjects('Canhao', 1032, 'canhao', 0, true, false, this.canhoes, Canhao);
+        this.balas= this.game.add.group();
+        this.canhoes.forEach( (canhao) => canhao.balas = this.balas) 
+    }
+
     createLava() {
         this.lava = this.game.add.group();
         this.map.createFromObjects('Lava', 1361, 'lava', 0, true, false, this.lava, Lava);
@@ -81,12 +89,6 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida);
     }
 
-    createBala() {
-        this.balas = this.game.add.group();
-        this.map.createFromObjects('Coins', 1356, 'bala', 0, true, false, this.balas, Bala);
-        //this.balas.forEach( (bala) => bala.start() )
-        //setInterval(this.createBala(), 5000); 
-    }
 
 
     createNextlevel() {
@@ -125,7 +127,9 @@ class PlayState extends Phaser.State {
         this.game.stage.backgroundColor = '#000000';
 
        // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
-        let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, 1000, 'background');
+        let bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+        //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
+        bg.tileScale.setTo(0.75, 0.9);
         bg.fixedToCamera = true;
 
         this.keys = this.game.input.keyboard.createCursorKeys();
@@ -144,7 +148,8 @@ class PlayState extends Phaser.State {
         this.createPlanta();
         this.createLava();
         this.createEnemies();
-        this.createBala();
+        //this.createBala();
+        this.createCanhao();
         this.createVida();
         this.createCoins();
         this.createChecks();
@@ -192,12 +197,19 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.trapsLayer, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.coins, this.collectCoin, null, this);
         this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this);
-        this.game.physics.arcade.overlap(this.player, this.bala, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.balas, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
         this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
+        this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
+
        
+    }
+
+    destroiBala(bala){
+        bala.kill();
+
     }
 
      loadNextLevel() {
@@ -250,7 +262,7 @@ class PlayState extends Phaser.State {
         this.addVida(-1);
         this.camera.shake(0.02, 200);
         if (this.vidasTotal == 0) {
-            this.create();
+            this.game.state.start('Play')
         }
     }
 
