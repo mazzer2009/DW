@@ -28,9 +28,13 @@ class ServerComm {
         $.post(url, JSON.stringify(data))
                 .done(function (data, status) {
                     callback(data);
+                    $('#status').addClass("label-success").removeClass("label-warning");
+                    $('#status').text("ONLINE");
                 })
                 .fail(function (jqXHR, status, errorThrown) {
                     console.log('ERROR: cannot reach game server');
+                    $('#status').addClass("label-warning").removeClass("label-success");
+                    $('#status').text('OFFLINE');
                 });
     }
 }

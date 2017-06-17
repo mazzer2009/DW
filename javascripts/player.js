@@ -4,16 +4,16 @@ class Player extends Phaser.Sprite {
 
     constructor(game, cursors, x, y, asset) {
         super(game, x, y, asset);
-        this.posicao={}
-        this.posicao.x = 5
-        this.posicao.y = 5
+        this.posicao = {};
+        this.posicao.x = 5;
+        this.posicao.y = 5;
         this.keys = cursors;
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
         this.body.collideWorldBounds = true;
         this.body.setSize(15, 18, 5, 16);
         this.anchor.setTo(0.5, 0.5);
 
-        this.animations.add('walk', [1, 0,], 7, true);
+        this.animations.add('walk', [1, 0, ], 7, true);
         this.animations.add('jump', [2], 10, true);
         this.animations.add('idle', [0], 10, true);
 
@@ -21,7 +21,7 @@ class Player extends Phaser.Sprite {
         jumpButton.onDown.add(this.jump, this);
 
         sKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
-        
+
         this.id = "rmeloca";
     }
 
@@ -62,10 +62,10 @@ class Player extends Phaser.Sprite {
 
         // define lado
         if (this.body.velocity.x > 0) {
-            this.scale.x = 1
+            this.scale.x = 1;
         } else
         if (this.body.velocity.x < 0) {
-            this.scale.x = -1
+            this.scale.x = -1;
         }
     }
 }

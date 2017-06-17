@@ -19,11 +19,10 @@
                 <!-- form de login -->
                 <form class='navbar-form navbar-left' id='form-login'>
                     <div class='form-group'>
-                        <input type='text' class='form-control' placeholder='Username'>
-                        <input type='password' class='form-control' placeholder='Password'>
+                        <input type='text' id="login-login"  class='form-control' placeholder='Username'>
+                        <input type='password' id="login-password" class='form-control' placeholder='Password'>
                     </div>
-                    <button type='button' class='btn btn-primary'
-                            id='form-login-button'>
+                    <button type='button' class='btn btn-primary' id='form-login-button' onclick="login()">
                         <span class='glyphicon glyphicon-log-in'></span>
                         Login
                     </button>
@@ -49,7 +48,7 @@
                 <div class='nav navbar-nav navbar-right'>
                     <p class='navbar-text'>Status:</p>
                     <h4 class='navbar-text'>
-                        <span class='label label-success'>ONLINE</span>
+                        <span id="status" class='label label-success'>ONLINE</span>
                     </h4>
                 </div>
 
@@ -128,10 +127,10 @@
 
     <!-- TEMPLATES -->
     <script id='template-profile-item' type='type/x-handlebars-template'>
-                <li class='list-group-item justify-content-between'>
-                {{description}}
-                <span class='badge badge-default badge-pill'>{{value}}</span>
-                </li>
+        <li class='list-group-item justify-content-between'>
+        {{description}}
+        <span class='badge badge-default badge-pill'>{{value}}</span>
+        </li>
     </script>
 
     <!-- INCLUDES DAS LIBS -->
