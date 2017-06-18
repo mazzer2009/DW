@@ -23,6 +23,31 @@ class ServerComm {
         ServerComm.ajaxPost(data, callback);
     }
 
+    static logout() {
+        $("#form-login-button").attr("onclick", "ServerComm.login()");
+    }
+
+    static login() {
+        let strLogin = $('#login-login').val();
+        let strPassword = $('#login-password').val();
+        let request = {
+            id: strLogin,
+            op: 'query-profile',
+            data: {
+                password: strPassword
+            }
+        }
+        ServerComm.ajaxPost(request, function (data) {
+            if (data.response === "ok") {
+                let button = $("#form-login-button");
+                button.attr("onclick", "ServerComm.logout()");
+                button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
+            } else {
+                alert("Credenciais inválidas!");
+            }
+        });
+    }
+
     static ajaxPost(data, callback) {
         let url = 'http://localhost:8888/game'
         $.post(url, JSON.stringify(data))

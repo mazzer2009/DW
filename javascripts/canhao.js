@@ -15,7 +15,6 @@ class Canhao extends Phaser.Sprite {
         this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.fire, this);
     }
     fire(){
-        console.log("Fire");
         let bala = new Bala(this.game, this.x, this.y, 'bala')
         this.game.add.existing(bala);
         bala.body.velocity.x = this.dirX * this.speed;
