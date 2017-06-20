@@ -7,7 +7,7 @@ class PlayState extends Phaser.State {
         //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
         this.game.load.spritesheet('dude', `${dir}mariodude.png`, 21, 35);
-        this.game.load.image('background', `${dir}backteste.png`);
+        this.game.load.image('background', `${dir}background${Config.LEVEL}.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
@@ -22,7 +22,13 @@ class PlayState extends Phaser.State {
     }
 
     createPlayer() {
-        this.player = new Player(this.game, this.keys, 5, 5, 'dude');
+		console.log("LEVEL:::::"+Config.LEVEL)
+		if (Config.LEVEL==2){
+			this.player = new Player(this.game, this.keys, 5, 195, 'dude');
+		}else{
+			this.player = new Player(this.game, this.keys, 5, 5, 'dude');
+		}
+        // this.player = new Player(this.game, this.keys, 5, 5, 'dude');
         this.game.add.existing(this.player);
         this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
     }
@@ -49,7 +55,8 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(838, 838, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(1032, 1032, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1');
-
+		this.map.setCollisionBetween(1255, 1260, true, 'Camada de Tiles 1');
+		this.map.setCollisionBetween(1311, 1313, true, 'Camada de Tiles 1');
         this.mapLayer.resizeWorld();
 
         this.trapsLayer = this.map.createLayer('Traps');
@@ -203,6 +210,7 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
         this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
+		this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
 
        
     }
