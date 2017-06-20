@@ -7,12 +7,12 @@ class Canhao extends Phaser.Sprite {
         this.body.setSize(25, 14, 3, 15)
         this.body.immovable = false // kinematic
 
-        this.scale.setTo(1.3, 1.3)
+        this.scale.setTo(1, 1)
         this.speed = 200;
 
-        this.animations.add('move', [1032], 5  , true)
-        this.animations.play('move')
-        this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.fire, this);
+       // this.animations.add('move', [1], 5  , true)
+        //this.animations.play('move')
+        this.game.time.events.loop(Phaser.Timer.SECOND * 3, this.fire, this);
     }
     fire(){
         let bala = new Bala(this.game, this.x, this.y, 'bala')

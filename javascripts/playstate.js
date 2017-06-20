@@ -12,7 +12,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
-        this.game.load.spritesheet('canhao', `${dir}mario.png`, 16, 16);
+        this.game.load.spritesheet('canhao', `${dir}canhao.png`, 16, 16);
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
         this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
         this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
@@ -22,7 +22,6 @@ class PlayState extends Phaser.State {
     }
 
     createPlayer() {
-		console.log("LEVEL:::::"+Config.LEVEL)
 		if (Config.LEVEL==2){
 			this.player = new Player(this.game, this.keys, 5, 195, 'dude');
 		}else{
@@ -56,13 +55,14 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(1032, 1032, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1');
 		this.map.setCollisionBetween(1255, 1260, true, 'Camada de Tiles 1');
-		this.map.setCollisionBetween(1311, 1313, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(1311, 1313, true, 'Camada de Tiles 1');
         this.mapLayer.resizeWorld();
 
         this.trapsLayer = this.map.createLayer('Traps');
         this.map.setCollision([829], true, 'Traps');
         this.map.setCollision([830], true, 'Traps');
         this.map.setCollision([771, 825, 879, 710], true, 'Traps');
+        //this.map.setCollision([1369],true, "Canhao");
     }
 
     createCoins() {
@@ -76,7 +76,7 @@ class PlayState extends Phaser.State {
 
     createCanhao() {
         this.canhoes = this.game.add.group();
-        this.map.createFromObjects('Canhao', 1032, 'canhao', 0, true, false, this.canhoes, Canhao);
+        this.map.createFromObjects('Canhao', 1369, 'canhao', 0, true, false, this.canhoes, Canhao);
         this.balas= this.game.add.group();
         this.canhoes.forEach( (canhao) => canhao.balas = this.balas) 
     }
@@ -210,7 +210,7 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
         this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
-		this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
 
        
     }
