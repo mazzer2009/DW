@@ -17,6 +17,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
         this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
+        this.game.load.spritesheet('bixos', `${dir}tartaruga.png`, 18, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
     }
@@ -106,6 +107,16 @@ class PlayState extends Phaser.State {
     createEnemies() {
         this.voadores = this.game.add.group();
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
+        this.voadores.forEach( (voador) => voador.start() ) 
+
+        this.bixos = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
+        this.bixos.forEach( (tartaruga) => tartaruga.start() ) 
+    }
+
+    createEnemies() {
+        this.bixos = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.boxps, Tartaruga);
         this.voadores.forEach( (voador) => voador.start() ) 
     }
 
