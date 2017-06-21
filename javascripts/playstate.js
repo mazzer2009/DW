@@ -117,6 +117,10 @@ class PlayState extends Phaser.State {
         this.infoVidas = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
         this.infoVidas.text = "Vidas:"+Config.VIDAS;
         this.infoVidas.fixedToCamera = true
+
+        this.pause = this.game.add.text(230, 175, '', {fontSize: "36px", fill: '#ff0000'});
+        this.pause.text = "";
+        this.pause.fixedToCamera = true
     }
 
     addScore(amount) {
@@ -150,6 +154,10 @@ class PlayState extends Phaser.State {
         let screenshotButton = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
         screenshotButton.onDown.add(this.takeScreenShot, this);
 
+
+        let pauseButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        pauseButton.onDown.add(this.pauseGame, this);
+
         this.createMap();
         this.createPlayer();
         this.createPlanta();
@@ -167,6 +175,17 @@ class PlayState extends Phaser.State {
         this.levelCleared = false
 
     }
+
+    pauseGame(){
+        if(this.game.paused == false){
+            this.game.paused = true;
+                this.pause.text = "PAUSE"
+        }else{
+            this.pause.text = ""
+            this.game.paused = false;
+        }
+    }
+
 
     takeScreenShot() {
         // jQuery
