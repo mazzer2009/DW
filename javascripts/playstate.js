@@ -8,6 +8,7 @@ class PlayState extends Phaser.State {
         this.game.load.image('mario', `${dir}mario.png`);
         this.game.load.spritesheet('dude', `${dir}mariodude.png`, 21, 35);
         this.game.load.image('background', `${dir}background${Config.LEVEL}.png`);
+        this.game.load.image('background1_z0', `${dir}background2_z0.png`);
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
@@ -17,14 +18,15 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('lava', `${dir}lava.png`, 16, 16);
         this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
-        this.game.load.spritesheet('bixos', `${dir}tartaruga.png`, 18, 16);
+        this.game.load.spritesheet('tartaruga', `${dir}tartaruga.png`, 18, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
     }
 
     createPlayer() {
 		if (Config.LEVEL==2){
-			this.player = new Player(this.game, this.keys, 5, 195, 'dude');
+			this.player = new Player(this.game, this.keys, 40, 3150, 'dude');
+            console.log("level 2")
 		}else{
 			this.player = new Player(this.game, this.keys, 5, 5, 'dude');
 		}
@@ -109,16 +111,11 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
         this.voadores.forEach( (voador) => voador.start() ) 
 
-        this.bixos = this.game.add.group();
+/*        this.bixos = this.game.add.group();
         this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
-        this.bixos.forEach( (tartaruga) => tartaruga.start() ) 
+        this.bixos.forEach( (tartaruga) => tartaruga.start() )*/ 
     }
 
-    createEnemies() {
-        this.bixos = this.game.add.group();
-        this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.boxps, Tartaruga);
-        this.voadores.forEach( (voador) => voador.start() ) 
-    }
 
     cretateHud() {
         this.infoScore = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
@@ -149,11 +146,19 @@ class PlayState extends Phaser.State {
         this.game.stage.backgroundColor = '#000000';
 
        // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
-        let bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+        this.bg2 = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background1_z0');
         //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
-        bg.tileScale.setTo(0.75, 0.9);
-        bg.fixedToCamera = true;
+        this.bg2.tileScale.setTo(0.5, 0.5);
+        this.bg2.fixedToCamera = true;
+        this.bg2.tint = 0x222222
 
+         this.bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+        //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
+        this.bg.tileScale.setTo(1.2, 1.2);
+        this.bg.fixedToCamera = true;
+
+
+          
         this.keys = this.game.input.keyboard.createCursorKeys();
         this.game.physics.arcade.gravity.y = 550;
         this.score = 0;
@@ -170,14 +175,14 @@ class PlayState extends Phaser.State {
         pauseButton.onDown.add(this.pauseGame, this);
 
         this.createMap();
+        this.createCoins();
         this.createPlayer();
         this.createPlanta();
         this.createLava();
-        this.createEnemies();
         //this.createBala();
         this.createCanhao();
         this.createVida();
-        this.createCoins();
+        this.createEnemies();
         this.createChecks();
         this.createNextlevel();
         this.cretateHud();
@@ -243,6 +248,13 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
 
        
+        this.bg.tilePosition.x = -this.game.camera.x/3
+        this.bg.tilePosition.y = -this.game.camera.y/2    
+        
+        this.bg2.tilePosition.x = -this.game.camera.x/6
+        this.bg2.tilePosition.y = -this.game.camera.y/4
+
+
     }
 
     destroiBala(bala){
