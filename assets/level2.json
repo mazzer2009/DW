@@ -15,36 +15,65 @@
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Canhao",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Lava",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Inimigos",
-         "objects":[],
+         "objects":[
+                {
+                 "gid":1369,
+                 "height":16,
+                 "id":965,
+                 "name":"",
+                 "properties":
+                    {
+                     "targetX":7.05,
+                     "targetY":1506.39
+                    },
+                 "propertytypes":
+                    {
+                     "targetX":"float",
+                     "targetY":"float"
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":262.545454545455,
+                 "y":1506.13636363636
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Coins",
          "objects":[
                 {
@@ -2726,6 +2755,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -2742,18 +2772,19 @@
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Next level",
          "objects":[],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }],
- "nextobjectid":965,
+ "nextobjectid":968,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.0.1",
  "tileheight":16,
  "tilesets":[
         {
@@ -2872,9 +2903,21 @@
          "tilecount":1,
          "tileheight":24,
          "tilewidth":24
+        }, 
+        {
+         "columns":2,
+         "firstgid":1369,
+         "image":"tartaruga.png",
+         "imageheight":16,
+         "imagewidth":36,
+         "margin":0,
+         "name":"tartaruga",
+         "spacing":0,
+         "tilecount":2,
+         "tileheight":16,
+         "tilewidth":18
         }],
  "tilewidth":16,
- "type":"map",
  "version":1,
  "width":50
 }
