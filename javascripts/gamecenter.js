@@ -32,6 +32,7 @@ class ServerComm {
         let strPassword = $('#login-password').val();
         let request = {
             id: strLogin,
+            game: "marioevolution",
             op: 'query-profile',
             data: {
                 password: strPassword
