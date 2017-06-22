@@ -2,8 +2,8 @@ class PlayState extends Phaser.State {
     preload() {
         let dir = Config.ASSETS;
         // mapa
-        this.game.load.tilemap('level1', `${dir}level${Config.LEVEL}.json`, 
-            null, Phaser.Tilemap.TILED_JSON);
+        this.game.load.tilemap('level1', `${dir}level${Config.LEVEL}.json`,
+                null, Phaser.Tilemap.TILED_JSON);
         //this.game.load.tilemap('level1', `${dir}mapacerto.json`, null, Phaser.Tilemap.TILED_JSON);
         this.game.load.image('mario', `${dir}mario.png`);
         this.game.load.spritesheet('dude', `${dir}mariodude.png`, 21, 35);
@@ -19,14 +19,16 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
+
+        setInterval(ServerComm.ajaxPost({}, function () {}), 1000);
     }
 
     createPlayer() {
-		if (Config.LEVEL==2){
-			this.player = new Player(this.game, this.keys, 5, 195, 'dude');
-		}else{
-			this.player = new Player(this.game, this.keys, 5, 5, 'dude');
-		}
+        if (Config.LEVEL == 2) {
+            this.player = new Player(this.game, this.keys, 5, 195, 'dude');
+        } else {
+            this.player = new Player(this.game, this.keys, 5, 5, 'dude');
+        }
         // this.player = new Player(this.game, this.keys, 5, 5, 'dude');
         this.game.add.existing(this.player);
         this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
@@ -54,7 +56,7 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(838, 838, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(1032, 1032, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1');
-		this.map.setCollisionBetween(1255, 1260, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(1255, 1260, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(1311, 1313, true, 'Camada de Tiles 1');
         this.mapLayer.resizeWorld();
 
@@ -77,8 +79,8 @@ class PlayState extends Phaser.State {
     createCanhao() {
         this.canhoes = this.game.add.group();
         this.map.createFromObjects('Canhao', 1369, 'canhao', 0, true, false, this.canhoes, Canhao);
-        this.balas= this.game.add.group();
-        this.canhoes.forEach( (canhao) => canhao.balas = this.balas) 
+        this.balas = this.game.add.group();
+        this.canhoes.forEach((canhao) => canhao.balas = this.balas)
     }
 
     createLava() {
@@ -96,8 +98,6 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida);
     }
 
-
-
     createNextlevel() {
         this.nextlevel = this.game.add.group();
         this.map.createFromObjects('Next level', 1368, 'nextlevel', 0, true, false, this.nextlevel, Nextlevel);
@@ -106,7 +106,7 @@ class PlayState extends Phaser.State {
     createEnemies() {
         this.voadores = this.game.add.group();
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
-        this.voadores.forEach( (voador) => voador.start() ) 
+        this.voadores.forEach((voador) => voador.start())
     }
 
     cretateHud() {
@@ -115,7 +115,7 @@ class PlayState extends Phaser.State {
         this.infoScore.fixedToCamera = true;
 
         this.infoVidas = this.game.add.text(16, 37, '', {fontSize: "16px", fill: '#ffffff'});
-        this.infoVidas.text = "Vidas:"+Config.VIDAS;
+        this.infoVidas.text = "Vidas:" + Config.VIDAS;
         this.infoVidas.fixedToCamera = true
 
         this.pause = this.game.add.text(230, 175, '', {fontSize: "36px", fill: '#ff0000'});
@@ -137,7 +137,7 @@ class PlayState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.stage.backgroundColor = '#000000';
 
-       // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
+        // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
         let bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
         //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
         bg.tileScale.setTo(0.75, 0.9);
@@ -176,32 +176,31 @@ class PlayState extends Phaser.State {
 
     }
 
-    pauseGame(){
-        if(this.game.paused == false){
+    pauseGame() {
+        if (this.game.paused == false) {
             this.game.paused = true;
-                this.pause.text = "PAUSE"
-        }else{
+            this.pause.text = "PAUSE"
+        } else {
             this.pause.text = ""
             this.game.paused = false;
         }
     }
-
 
     takeScreenShot() {
         // jQuery
         let imgData = this.game.canvas.toDataURL();
         Config.SCREENSHOTS.add(imgData);
 
-        if (Config.SCREENSHOTS.length==0) {
+        if (Config.SCREENSHOTS.length == 0) {
             $('#div-screenshot').append('<p>There are no screenshots.</p>')
-        }else{
-            Config.SCREENSHOTS.forEach(function (item){
+        } else {
+            Config.SCREENSHOTS.forEach(function (item) {
                 console.log(item);
                 $('#div-screenshot').append(`<img src=${item} alt='game screenshot' class='screenshot'>`);
             });
-            for(var i =0; i<Config.SCREENSHOTS.length; i++){
+            for (var i = 0; i < Config.SCREENSHOTS.length; i++) {
                 $('#div-screenshot').append(`<img src=${Config.SCREENSHOTS[i]} alt='game screenshot' class='screenshot'>`);
-                
+
             }
 
         }
@@ -231,15 +230,15 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
         this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
 
-       
+
     }
 
-    destroiBala(bala){
+    destroiBala(bala) {
         bala.kill();
 
     }
 
-     loadNextLevel() {
+    loadNextLevel() {
         if (!this.levelCleared) {
             this.levelCleared = true
             this.game.camera.fade(0x000000, 1000)
@@ -264,12 +263,12 @@ class PlayState extends Phaser.State {
         player.posicao.y = this.player.y;
 
         /*this.request = {
-            id: 'player.id',
-            game: null,
-            op: "save-state",
-            data: {x: this.player.x, y: this.player.y}
-        };
-        ServerComm.ajaxPost(request);*/
+         id: 'player.id',
+         game: null,
+         op: "save-state",
+         data: {x: this.player.x, y: this.player.y}
+         };
+         ServerComm.ajaxPost(request);*/
     }
 
     collectCoin(player, coin) {
@@ -298,11 +297,11 @@ class PlayState extends Phaser.State {
             this.game.debug.body(this.player);
         }
     }
-} 
+}
 
-setTimeout(this.createBala,100);
+setTimeout(this.createBala, 100);
 
-window.onload = function() {
+window.onload = function () {
     // funciona como singleton
     const GAME = new Game()
 }
