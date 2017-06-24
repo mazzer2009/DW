@@ -22,16 +22,18 @@ class PlayState extends Phaser.State {
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
 
-        setInterval(ServerComm.ajaxPost({}, function () {}), 1000);
+        setInterval(function () {
+            ServerComm.ajaxPost({}, function () {});
+        }, 1000);
     }
 
     createPlayer() {
-		if (Config.LEVEL==2){
-			this.player = new Player(this.game, this.keys, 40, 3150, 'dude');
+        if (Config.LEVEL == 2) {
+            this.player = new Player(this.game, this.keys, 40, 3150, 'dude');
             console.log("level 2")
-		}else{
-			this.player = new Player(this.game, this.keys, 5, 5, 'dude');
-		}
+        } else {
+            this.player = new Player(this.game, this.keys, 5, 5, 'dude');
+        }
         // this.player = new Player(this.game, this.keys, 5, 5, 'dude');
         this.game.add.existing(this.player);
         this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.1);
@@ -111,11 +113,10 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
         this.voadores.forEach((voador) => voador.start())
 
-/*        this.bixos = this.game.add.group();
-        this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
-        this.bixos.forEach( (tartaruga) => tartaruga.start() )*/ 
+        /*        this.bixos = this.game.add.group();
+         this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
+         this.bixos.forEach( (tartaruga) => tartaruga.start() )*/
     }
-
 
     cretateHud() {
         this.infoScore = this.game.add.text(16, 16, '', {fontSize: "16px", fill: '#ffffff'});
@@ -145,20 +146,20 @@ class PlayState extends Phaser.State {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.stage.backgroundColor = '#000000';
 
-       // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
+        // let bg = this.game.add.tileSprite(0, 0, Config.WIDTH, Config.HEIGHT, 'background');
         this.bg2 = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background1_z0');
         //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
         this.bg2.tileScale.setTo(0.5, 0.5);
         this.bg2.fixedToCamera = true;
         this.bg2.tint = 0x222222
 
-         this.bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
+        this.bg = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'background');
         //bg.tileScale.setTo(this.game.width/bg.width, this.game.height/bg.height);
         this.bg.tileScale.setTo(1.2, 1.2);
         this.bg.fixedToCamera = true;
 
 
-          
+
         this.keys = this.game.input.keyboard.createCursorKeys();
         this.game.physics.arcade.gravity.y = 550;
         this.score = 0;
@@ -246,12 +247,12 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
         this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
 
-       
-        this.bg.tilePosition.x = -this.game.camera.x/3
-        this.bg.tilePosition.y = -this.game.camera.y/2    
-        
-        this.bg2.tilePosition.x = -this.game.camera.x/6
-        this.bg2.tilePosition.y = -this.game.camera.y/4
+
+        this.bg.tilePosition.x = -this.game.camera.x / 3
+        this.bg.tilePosition.y = -this.game.camera.y / 2
+
+        this.bg2.tilePosition.x = -this.game.camera.x / 6
+        this.bg2.tilePosition.y = -this.game.camera.y / 4
 
 
     }

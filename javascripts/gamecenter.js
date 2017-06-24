@@ -27,6 +27,28 @@ class ServerComm {
         $("#form-login-button").attr("onclick", "ServerComm.login()");
     }
 
+    static signup() {
+        let strLogin = $('#login-login').val();
+        let strPassword = $('#login-password').val();
+        let request = {
+            id: strLogin,
+            game: "marioevolution",
+            op: 'add-profile',
+            data: {
+                password: strPassword
+            }
+        }
+        ServerComm.ajaxPost(request, function (data) {
+            if (data.response === "ok") {
+                let button = $("#form-login-button");
+                button.attr("onclick", "ServerComm.logout()");
+                button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
+            } else {
+                alert("Credenciais inválidas!");
+            }
+        });
+    }
+
     static login() {
         let strLogin = $('#login-login').val();
         let strPassword = $('#login-password').val();
