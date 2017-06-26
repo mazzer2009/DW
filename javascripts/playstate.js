@@ -169,7 +169,7 @@ class PlayState extends Phaser.State {
         this.keys = this.game.input.keyboard.createCursorKeys();
         this.game.physics.arcade.gravity.y = 550;
         this.score = 0;
-        this.vidasTotal = 3;
+        this.vidasTotal = Config.VIDAS;
 
         let fullScreenButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         fullScreenButton.onDown.add(this.toogleFullScreen, this);
