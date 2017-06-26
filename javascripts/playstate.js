@@ -19,6 +19,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('nextlevel', `${dir}nextlevel.png`, 24, 24);
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
         this.game.load.spritesheet('tartaruga', `${dir}tartaruga.png`, 18, 16);
+        this.game.load.spritesheet('planta_horizontal', `${dir}planta_horizontal_33x16.png`, 33, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
 
@@ -29,7 +30,7 @@ class PlayState extends Phaser.State {
 
     createPlayer() {
         if (Config.LEVEL == 2) {
-            this.player = new Player(this.game, this.keys, 40, 3150, 'dude');
+            this.player = new Player(this.game, this.keys, 121, 3150, 'dude');
             console.log("level 2")
         } else {
             this.player = new Player(this.game, this.keys, 5, 5, 'dude');
@@ -48,6 +49,7 @@ class PlayState extends Phaser.State {
 
         // deve ter o mesmo nome usado na camada criada no Tiled Editor
         this.mapLayer = this.map.createLayer('Camada de Tiles 1');
+
 
         // os indices sao os mesmos para o tiles no Tiled Editor, acrescidos em 1
         this.map.setCollisionBetween(886, 888, true, 'Camada de Tiles 1');
@@ -113,9 +115,13 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Inimigos', 1365, 'voador', 0, true, false, this.voadores, Voador);
         this.voadores.forEach((voador) => voador.start())
 
-        /*        this.bixos = this.game.add.group();
-         this.map.createFromObjects('Inimigos', 1365, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
-         this.bixos.forEach( (tartaruga) => tartaruga.start() )*/
+        this.bixos = this.game.add.group();
+         this.map.createFromObjects('Inimigos', 1369, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
+         this.bixos.forEach( (tartaruga) => tartaruga.start())
+
+         this.planta_horizontal=this.game.add.group();
+         this.map.createFromObjects('Inimigos', 1371, 'planta_horizontal', 0, true, false, this.planta_horizontal, PlantaHorizontal);
+         this.planta_horizontal.forEach( (planta_horizontal) => planta_horizontal.start())
     }
 
     cretateHud() {
@@ -184,6 +190,7 @@ class PlayState extends Phaser.State {
         this.createCanhao();
         this.createVida();
         this.createEnemies();
+        this.camadaEsconde = this.map.createLayer('Camada esconde');
         this.createChecks();
         this.createNextlevel();
         this.cretateHud();
@@ -246,6 +253,8 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
         this.game.physics.arcade.collide(this.balas, this.mapLayer, this.destroiBala, null, this);
         this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.player, this.bixos, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.player, this.planta_horizontal, this.playerDied, null, this);
 
 
         this.bg.tilePosition.x = -this.game.camera.x / 3

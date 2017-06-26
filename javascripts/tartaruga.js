@@ -4,13 +4,16 @@ class Tartaruga extends Phaser.Sprite {
         this.game.physics.arcade.enable(this)
         this.body.allowGravity = false
         this.autoCull = true
-        this.body.setSize(25, 14, 3, 15)
-        this.body.immovable = false // kinematic
+        //this.body.setSize(25, 14, 3, 15)
+        this.body.immovable = true // kinematic
 
         this.scale.setTo(1.3, 1.3)
+         this.anchor.setTo(0.5, 0.5)
+         this.lastX = this.x;
 
-        this.animations.add('move', [0,1,2], 5  , true)
+        this.animations.add('move', [0,1], 5  , true)
         this.animations.play('move')
+        console.log(this.y)
     }
 
     start() {
@@ -18,9 +21,20 @@ class Tartaruga extends Phaser.Sprite {
         this.targetY -= this.height
 
         let tweenA = this.game.add.tween(this)
-            .to( { x: this.targetX, y: this.targetY }, 3000, Phaser.e )
-            .to( { x: this.x, y: this.y }, 3000, "Quart.easeInOut" )
+            .to( { x: this.targetX, y: this.targetY }, 3000,Phaser.Easing.Linear.None )
+            .to( { x: this.x, y: this.y }, 3000, Phaser.Easing.Linear.None )
             .loop(-1)
             .start()
+    }
+
+
+    update() {
+
+        if (this.x > this.lastX) {
+            this.scale.x = -1;
+        } else {
+            this.scale.x = 1;
+        }
+        this.lastX = this.x;
     }
 }

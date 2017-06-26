@@ -1,4 +1,4 @@
-class Voador extends Phaser.Sprite {
+class PlantaHorizontal extends Phaser.Sprite {
     constructor(game, x, y, asset) {
         super(game, x, y, asset)
         this.game.physics.arcade.enable(this)
@@ -9,7 +9,7 @@ class Voador extends Phaser.Sprite {
 
         this.scale.setTo(1.3, 1.3)
 
-        this.animations.add('move', [0,1,2], 5  , true)
+        this.animations.add('move', [0,1], 5  , true)
         this.animations.play('move')
     }
 
@@ -18,8 +18,8 @@ class Voador extends Phaser.Sprite {
         this.targetY -= this.height
 
         let tweenA = this.game.add.tween(this)
-            .to( { x: this.targetX, y: this.targetY }, 3000, Phaser.Easing.Linear.None )
-            .to( { x: this.x, y: this.y }, 3000, Phaser.Easing.Linear.None)
+            .to( { x: this.targetX, y: this.targetY }, 3000, "Quart.easeInOut" )
+            .to( { x: this.x, y: this.y }, 3000, "Quart.easeInOut" )
             .loop(-1)
             .start()
     }
