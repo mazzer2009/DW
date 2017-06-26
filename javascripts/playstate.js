@@ -20,6 +20,9 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('voador', `${dir}enemynuvem.png`, 28, 38);
         this.game.load.spritesheet('tartaruga', `${dir}tartaruga.png`, 18, 16);
         this.game.load.spritesheet('planta_horizontal', `${dir}planta_horizontal_33x16.png`, 33, 16);
+        this.game.load.spritesheet('esqueleto', `${dir}esqueleto_26x32.png`, 26, 32);
+        this.game.load.spritesheet('esqueleto_osso', `${dir}esqueleto_osso_24x32.png`, 24, 32);
+        this.game.load.spritesheet('osso', `${dir}osso_16x16.png`, 16, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
 
@@ -30,7 +33,7 @@ class PlayState extends Phaser.State {
 
     createPlayer() {
         if (Config.LEVEL == 2) {
-            this.player = new Player(this.game, this.keys, 121, 3150, 'dude');
+            this.player = new Player(this.game, this.keys, 377, 2448, 'dude');
             console.log("level 2")
         } else {
             this.player = new Player(this.game, this.keys, 5, 5, 'dude');
@@ -90,6 +93,13 @@ class PlayState extends Phaser.State {
         this.canhoes.forEach((canhao) => canhao.balas = this.balas)
     }
 
+    createEsqueleto() {
+        this.esqueletos2 = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1376, 'esqueleto_osso', 0, true, false, this.esqueletos2, Esqueletos2);
+        this.ossos = this.game.add.group();
+        this.esqueletos2.forEach((esqueletos2) => esqueleto2.ossos = this.ossos)
+    }
+
     createLava() {
         this.lava = this.game.add.group();
         this.map.createFromObjects('Lava', 1361, 'lava', 0, true, false, this.lava, Lava);
@@ -122,6 +132,10 @@ class PlayState extends Phaser.State {
          this.planta_horizontal=this.game.add.group();
          this.map.createFromObjects('Inimigos', 1371, 'planta_horizontal', 0, true, false, this.planta_horizontal, PlantaHorizontal);
          this.planta_horizontal.forEach( (planta_horizontal) => planta_horizontal.start())
+
+         this.esqueletos=this.game.add.group();
+         this.map.createFromObjects('Inimigos', 1377, 'esqueleto', 0, true, false, this.esqueletos, Esqueleto);
+         this.esqueletos.forEach( (esqueleto) => esqueleto.start())
     }
 
     cretateHud() {
@@ -188,6 +202,7 @@ class PlayState extends Phaser.State {
         this.createLava();
         //this.createBala();
         this.createCanhao();
+        this.createEsqueleto();
         this.createVida();
         this.createEnemies();
         this.camadaEsconde = this.map.createLayer('Camada esconde');
