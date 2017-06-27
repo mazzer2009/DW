@@ -95,9 +95,9 @@ class PlayState extends Phaser.State {
 
     createEsqueleto() {
         this.esqueletos2 = this.game.add.group();
-        this.map.createFromObjects('Inimigos', 1376, 'esqueleto_osso', 0, true, false, this.esqueletos2, Esqueletos2);
+        this.map.createFromObjects('Inimigos', 1379, 'esqueleto_osso', 0, true, false, this.esqueletos2, Esqueletos2);
         this.ossos = this.game.add.group();
-        this.esqueletos2.forEach((esqueletos2) => esqueleto2.ossos = this.ossos)
+        this.esqueletos2.forEach((esqueleto_osso) => esqueleto_osso.ossos = this.ossos)
     }
 
     createLava() {
@@ -270,6 +270,9 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.voadores, this.playerDied, null, this);
         this.game.physics.arcade.collide(this.player, this.bixos, this.playerDied, null, this);
         this.game.physics.arcade.collide(this.player, this.planta_horizontal, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.player, this.ossos, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.mapLayer, this.ossos, this.destroiOsso, null, this);
+        this.game.physics.arcade.collide(this.player, this.esqueletos2, this.playerDied, null, this);
 
 
         this.bg.tilePosition.x = -this.game.camera.x / 3
@@ -283,6 +286,11 @@ class PlayState extends Phaser.State {
 
     destroiBala(bala) {
         bala.kill();
+
+    }
+
+     destroiOsso(osso) {
+        osso.kill();
 
     }
 

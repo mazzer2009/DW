@@ -10,9 +10,9 @@ class Esqueletos2 extends Phaser.Sprite {
         this.scale.setTo(1, 1)
         this.speed = 200;
 
-        //this.animations.add('move', [1,0], 5  , true)
-       //this.animations.play('move')
-        this.game.time.events.loop(Phaser.Timer.SECOND * 3, this.fire, this);
+        this.animations.add('move', [0,1], 1  , true)
+       this.animations.play('move')
+        this.game.time.events.loop(Phaser.Timer.SECOND * 2, this.fire, this);
     }
     fire(){
         let osso = new Osso(this.game, this.x, this.y, 'osso')
