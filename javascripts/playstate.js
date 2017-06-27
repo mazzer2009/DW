@@ -33,7 +33,7 @@ class PlayState extends Phaser.State {
 
     createPlayer() {
         if (Config.LEVEL == 2) {
-            this.player = new Player(this.game, this.keys, 377, 2448, 'dude');
+            this.player = new Player(this.game, this.keys, 10, 3000, 'dude');
             console.log("level 2")
         } else {
             this.player = new Player(this.game, this.keys, 5, 5, 'dude');
@@ -273,13 +273,18 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.player, this.ossos, this.playerDied, null, this);
         this.game.physics.arcade.collide(this.mapLayer, this.ossos, this.destroiOsso, null, this);
         this.game.physics.arcade.collide(this.player, this.esqueletos2, this.playerDied, null, this);
+        this.game.physics.arcade.collide(this.player, this.esqueletos, this.touchEnemie, null, this);
 
+         if (Config.LEVEL == 2) {
+            this.bg.tilePosition.x = -this.game.camera.x / 3
+            this.bg.tilePosition.y = -this.game.camera.y / 2
 
-        this.bg.tilePosition.x = -this.game.camera.x / 3
-        this.bg.tilePosition.y = -this.game.camera.y / 2
-
-        this.bg2.tilePosition.x = -this.game.camera.x / 6
-        this.bg2.tilePosition.y = -this.game.camera.y / 4
+             this.bg2.tilePosition.x = -this.game.camera.x / 6
+             this.bg2.tilePosition.y = -this.game.camera.y / 4
+        }else{
+            this.bg.tileScale.setTo(0.8, 0.8);
+        }
+        
 
 
     }
@@ -287,6 +292,15 @@ class PlayState extends Phaser.State {
     destroiBala(bala) {
         bala.kill();
 
+    }
+
+     touchEnemie(player, enemie) {
+        if (this.player.body.velocity.y > 0) { // kill enemies when hero is falling
+            //enemie.kill();
+            enemie.enemieKill();
+            this.player.body.velocity.y = -200;
+            return;
+        }
     }
 
     destroiOsso(osso) {
@@ -318,7 +332,7 @@ class PlayState extends Phaser.State {
         player.posicao.x = this.player.x;
         player.posicao.y = this.player.y;
 
-        this.request = {
+        /*this.request = {
             id: Config.PLAYER,
             game: Config.GAME,
             op: "save-state",
@@ -331,7 +345,7 @@ class PlayState extends Phaser.State {
                 lifes: Config.VIDAS
             }
         };
-        ServerComm.ajaxPost(request);
+        ServerComm.ajaxPost(request);*/
     }
 
     collectCoin(player, coin) {

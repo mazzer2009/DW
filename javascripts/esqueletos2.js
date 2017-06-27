@@ -9,6 +9,7 @@ class Esqueletos2 extends Phaser.Sprite {
 
         this.scale.setTo(1, 1)
         this.speed = 200;
+        this.anchor.setTo(0.5, 0)
 
         this.animations.add('move', [0,1], 1  , true)
        this.animations.play('move')
@@ -19,6 +20,15 @@ class Esqueletos2 extends Phaser.Sprite {
         this.game.add.existing(osso);
         osso.body.velocity.x = this.dirX * this.speed;
         this.ossos.add(osso);
+    }
+
+     update() {
+
+        if (this.dirX> 0) {
+            this.scale.x = -1;
+        } else {
+            this.scale.x = 1;
+        }
     }
 
     /*start() {

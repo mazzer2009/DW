@@ -14,13 +14,15 @@ class Esqueleto extends Phaser.Sprite {
 
         this.animations.add('move', [2,3], 5  , true)
         this.animations.play('move')
+
+        this.animations.add("dead", [1,0] ,2,true)
     }
 
     start() {
         // correcao do problema de ancora do TILED
         this.targetY -= this.height
 
-        let tweenA = this.game.add.tween(this)
+        this.tweenA = this.game.add.tween(this)
             .to( { x: this.targetX, y: this.targetY }, 3000, Phaser.Easing.Linear.None )
             .to( { x: this.x, y: this.y }, 3000, Phaser.Easing.Linear.None)
             .loop(-1)
@@ -37,5 +39,13 @@ class Esqueleto extends Phaser.Sprite {
         }
         this.lastX = this.x;
     }
+
+     enemieKill() {
+        this.animations.play('dead');
+        //this.body.allowGravity = false;
+        this.tweenA.stop();
+        this.body.enable = false;
+        this.game.time.events.add(Phaser.Timer.SECOND * 1, this.kill, this);
+}
 
 }
