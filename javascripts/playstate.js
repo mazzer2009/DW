@@ -126,16 +126,16 @@ class PlayState extends Phaser.State {
         this.voadores.forEach((voador) => voador.start())
 
         this.bixos = this.game.add.group();
-         this.map.createFromObjects('Inimigos', 1369, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
-         this.bixos.forEach( (tartaruga) => tartaruga.start())
+        this.map.createFromObjects('Inimigos', 1369, 'tartaruga', 0, true, false, this.bixos, Tartaruga);
+        this.bixos.forEach((tartaruga) => tartaruga.start())
 
-         this.planta_horizontal=this.game.add.group();
-         this.map.createFromObjects('Inimigos', 1371, 'planta_horizontal', 0, true, false, this.planta_horizontal, PlantaHorizontal);
-         this.planta_horizontal.forEach( (planta_horizontal) => planta_horizontal.start())
+        this.planta_horizontal = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1371, 'planta_horizontal', 0, true, false, this.planta_horizontal, PlantaHorizontal);
+        this.planta_horizontal.forEach((planta_horizontal) => planta_horizontal.start())
 
-         this.esqueletos=this.game.add.group();
-         this.map.createFromObjects('Inimigos', 1377, 'esqueleto', 0, true, false, this.esqueletos, Esqueleto);
-         this.esqueletos.forEach( (esqueleto) => esqueleto.start())
+        this.esqueletos = this.game.add.group();
+        this.map.createFromObjects('Inimigos', 1377, 'esqueleto', 0, true, false, this.esqueletos, Esqueleto);
+        this.esqueletos.forEach((esqueleto) => esqueleto.start())
     }
 
     cretateHud() {
@@ -289,7 +289,7 @@ class PlayState extends Phaser.State {
 
     }
 
-     destroiOsso(osso) {
+    destroiOsso(osso) {
         osso.kill();
 
     }
@@ -318,13 +318,20 @@ class PlayState extends Phaser.State {
         player.posicao.x = this.player.x;
         player.posicao.y = this.player.y;
 
-        /*this.request = {
-         id: 'player.id',
-         game: null,
-         op: "save-state",
-         data: {x: this.player.x, y: this.player.y}
-         };
-         ServerComm.ajaxPost(request);*/
+        this.request = {
+            id: Config.PLAYER,
+            game: Config.GAME,
+            op: "save-state",
+            data: {
+                password: Config.PASSWORD,
+                coordinate: {
+                    x: this.player.x, y: this.player.y
+                },
+                score: Config.SCORE,
+                lifes: Config.VIDAS
+            }
+        };
+        ServerComm.ajaxPost(request);
     }
 
     collectCoin(player, coin) {

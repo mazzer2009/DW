@@ -14,9 +14,10 @@ class ServerComm {
     // metodo generico a ser usado por todas as 
     // requisicoes de trofeus
     static sendRequestTrophy(user, opName, opData, callback) {
+        opData.password = Config.PASSWORD;
         let data = {
-            id: user,
-            game: null,
+            id: Config.PLAYER,
+            game: Config.GAME,
             op: opName,
             data: opData
         };
@@ -42,6 +43,8 @@ class ServerComm {
         }
         ServerComm.ajaxPost(request, function (data) {
             if (data.response === "ok") {
+                Config.PLAYER = strLogin;
+                Config.PASSWORD = strPassword;
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
@@ -65,6 +68,8 @@ class ServerComm {
         ServerComm.ajaxPost(request, function (data) {
             console.log(data);
             if (data.response === "ok" && data.data.password === strPassword) {
+                Config.PLAYER = strLogin;
+                Config.PASSWORD = strPassword;
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
