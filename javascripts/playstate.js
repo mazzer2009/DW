@@ -301,6 +301,7 @@ class PlayState extends Phaser.State {
             this.player.body.velocity.y = -200;
             return;
         }
+        this.playerDied();
     }
 
     destroiOsso(osso) {

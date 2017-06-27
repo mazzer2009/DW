@@ -12,10 +12,10 @@ class Esqueleto extends Phaser.Sprite {
          this.lastX = this.x;
 
 
-        this.animations.add('move', [2,3], 5  , true)
-        this.animations.play('move')
-
+        this.animations.add('move', [2,3], 3  , true)
         this.animations.add("dead", [1,0] ,2,true)
+
+        this.animations.play('move')
     }
 
     start() {
@@ -23,8 +23,8 @@ class Esqueleto extends Phaser.Sprite {
         this.targetY -= this.height
 
         this.tweenA = this.game.add.tween(this)
-            .to( { x: this.targetX, y: this.targetY }, 3000, Phaser.Easing.Linear.None )
-            .to( { x: this.x, y: this.y }, 3000, Phaser.Easing.Linear.None)
+            .to( { x: this.targetX, y: this.targetY }, 4000, Phaser.Easing.Linear.None )
+            .to( { x: this.x, y: this.y }, 4000, Phaser.Easing.Linear.None)
             .loop(-1)
             .start()
     }
