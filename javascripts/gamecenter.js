@@ -1,19 +1,19 @@
 class ServerComm {
     static addTrophy(data, callback) {
-        ServerComm.sendRequestTrophy('john_doe', 'add-trophy', data, callback);
+        ServerComm.sendRequestTrophy('add-trophy', data, callback);
     }
 
     static listTrophy(callback) {
-        ServerComm.sendRequestTrophy('john_doe', 'list-trophy', '', callback);
+        ServerComm.sendRequestTrophy('list-trophy', {}, callback);
     }
 
     static clearTrophy(callback) {
-        ServerComm.sendRequestTrophy('john_doe', 'clear-trophy', '', callback);
+        ServerComm.sendRequestTrophy('clear-trophy', {}, callback);
     }
 
     // metodo generico a ser usado por todas as 
     // requisicoes de trofeus
-    static sendRequestTrophy(user, opName, opData, callback) {
+    static sendRequestTrophy(opName, opData, callback) {
         opData.password = Config.PASSWORD;
         let data = {
             id: Config.PLAYER,
