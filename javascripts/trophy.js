@@ -61,7 +61,8 @@ class Trophy extends Phaser.Sprite {
     }
 
     onServerResponse(response, trophyName) {
-        if (response['response'] != 'ok') {
+        console.log(response);
+        if (response['response'] !== 'ok') {
             console.log("ERRO de comunicao com o servidor");
             return
         }

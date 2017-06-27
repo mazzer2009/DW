@@ -24,7 +24,9 @@ class ServerComm {
     }
 
     static logout() {
-        $("#form-login-button").attr("onclick", "ServerComm.login()");
+        let button = $("#form-login-button");
+        button.attr("onclick", "ServerComm.login()");
+        button.html('<span class="glyphicon glyphicon-log-in"></span>Login');
     }
 
     static signup() {
@@ -61,7 +63,8 @@ class ServerComm {
             }
         }
         ServerComm.ajaxPost(request, function (data) {
-            if (data.response === "ok") {
+            console.log(data);
+            if (data.response === "ok" && data.data.password === strPassword) {
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
