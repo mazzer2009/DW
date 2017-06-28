@@ -15,3 +15,15 @@ Config.GAME = "marioevolution"
 Config.PLAYER = "rmeloca"
 Config.PASSWORD = "meloca"
 Config.SCREENSHOTS = [];
+Config.PROFILE = {
+    id: "",
+    game: "",
+    data: {
+        password: "",
+        score: 0,
+        vidas: 0,
+        level: 0,
+        trophies: [],
+        screenshots: []
+    }
+}

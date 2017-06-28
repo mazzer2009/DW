@@ -48,6 +48,7 @@ class ServerComm {
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
+                ServerComm.populateProfile(data);
             } else {
                 alert("Credenciais inválidas!");
             }
@@ -73,10 +74,16 @@ class ServerComm {
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
+                ServerComm.populateProfile(data);
             } else {
                 alert("Credenciais inválidas!");
             }
         });
+    }
+
+    static populateProfile(data) {
+        Config.PROFILE.id = data.id;
+        Config.PROFILE.data.password = data.data.password;
     }
 
     static ajaxPost(data, callback) {

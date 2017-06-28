@@ -3,7 +3,8 @@ class Trophy extends Phaser.Sprite {
         super(game, 0, 0, '');
         this.data = {};
         this.data['first death'] = {
-            name: 'first death', xp: 10,
+            name: 'first death',
+            xp: 10,
             title: 'KEEP CALM AND PLAY',
             description: 'First death on game'
         };
@@ -19,11 +20,11 @@ class Trophy extends Phaser.Sprite {
 
     updateAchievedTrophies(json) {
         // coloca os nomes dos trofeus na lista de controle: this.achieved
-        let list = json['data'];
-        for (let t of list) {
-            this.achieved.push(t['name']);
-            this.addTrophyOnPage(t['name']);
-        }
+        json.data.forEach(function (item) {
+            console.log(item);
+            this.achieved.push(item);
+            this.addTrophyOnPage(item);
+        });
     }
 
     createPanel(trophyName) {
