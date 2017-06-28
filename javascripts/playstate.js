@@ -181,11 +181,13 @@ class PlayState extends Phaser.State {
     addScore(amount) {
         this.score += amount;
         this.infoScore.text = "COINS: " + this.score;
+        Config.SCORE = this.score
     }
 
     addVida(amount) {
         this.vidasTotal += amount;
         this.infoVidas.text = "Vidas: " + this.vidasTotal;
+        Config.VIDAS = this.vidasTotal
     }
 
     create() {
