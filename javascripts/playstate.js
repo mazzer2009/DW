@@ -24,6 +24,8 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('esqueleto', `${dir}esqueleto_26x32.png`, 26, 32);
         this.game.load.spritesheet('esqueleto_osso', `${dir}esqueleto_osso_24x32.png`, 24, 32);
         this.game.load.spritesheet('osso', `${dir}osso_16x16.png`, 16, 16);
+        this.game.load.spritesheet('diamante', `${dir}diamante1.png`, 16, 16);
+        this.game.load.spritesheet('teleport', `${dir}teleport_17x16.png`, 16, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
     }
@@ -74,11 +76,15 @@ class PlayState extends Phaser.State {
         this.mapLayer.resizeWorld();
 
         this.trapsLayer = this.map.createLayer('Traps');
+      
         this.map.setCollision([829], true, 'Traps');
         this.map.setCollision([830], true, 'Traps');
         this.map.setCollision([1263], true, 'Traps');
         this.map.setCollision([1317], true, 'Traps');
         this.map.setCollision([771, 825, 879, 710], true, 'Traps');
+
+
+
         //this.map.setCollision([1369],true, "Canhao");
     }
 
@@ -120,9 +126,19 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1355, 'nuvem', 0, true, false, this.checks, Nuvem);
     }
 
+    createTeleport() {
+        this.teleport = this.game.add.group();
+        this.map.createFromObjects('Teleport', 1393, 'teleport', 0, true, false, this.teleport, Teleport);
+    }
+
     createVida() {
         this.vidas = this.game.add.group();
         this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida);
+    }
+
+     createDiamante() {
+        this.diamante = this.game.add.group();
+        this.map.createFromObjects('Coins', 1392, 'diamante', 0, true, false, this.diamante, Diamante);
     }
 
     createNextlevel() {
@@ -221,6 +237,8 @@ class PlayState extends Phaser.State {
         this.createEnemies();
         this.camadaEsconde = this.map.createLayer('Camada esconde');
         this.createChecks();
+        this.createDiamante();
+        this.createTeleport();
         this.createNextlevel();
         this.cretateHud();
         this.trophy = new Trophy(this.game);
@@ -277,6 +295,7 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.checks, this.collectCheck, null, this);
         this.game.physics.arcade.overlap(this.player, this.balas, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.vidas, this.collectVida, null, this);
+        this.game.physics.arcade.overlap(this.player, this.diamante, this.collectDiamante, null, this);
         this.game.physics.arcade.overlap(this.player, this.planta, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.lava, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.nextlevel, this.loadNextLevel, null, this);
@@ -288,7 +307,8 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.mapLayer, this.ossos, this.destroiOsso, null, this);
         this.game.physics.arcade.collide(this.player, this.esqueletos2, this.playerDied, null, this);
         this.game.physics.arcade.collide(this.player, this.esqueletos, this.touchEnemie, null, this);
-        this.game.physics.arcade.collide(this.player, this.plantaGelo, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.plantaGelo, this.playerDied, null, this);
+        this.game.physics.arcade.overlap(this.player, this.teleport, this.playerTransport, null, this);
 
          if (Config.LEVEL == 2) {
             this.bg.tilePosition.x = -this.game.camera.x / 3
@@ -339,10 +359,14 @@ class PlayState extends Phaser.State {
         Config.SCORE = this.score
         Config.VIDAS = this.vidasTotal
         this.game.camera.onFadeComplete.removeAll(this)// bug
-        if (Config.LEVEL <= 3)
+        if (Config.LEVEL <= 3){
+            
+            this.game.state.start('win')
             this.game.state.restart()
-        else
-            this.game.state.start('Title')
+        }
+        else{
+            this.game.state.start('win')
+        }
     }
 
     collectCheck(player, check) {
@@ -376,6 +400,10 @@ class PlayState extends Phaser.State {
         vida.destroy();
         this.addVida(vida.points);
     }
+    collectDiamante(player, diamante) {
+        diamante.destroy();
+        this.addScore(diamante.points);
+    }
 
     playerDied() {
         this.player.x = this.player.posicao.x;
@@ -383,8 +411,13 @@ class PlayState extends Phaser.State {
         this.addVida(-1);
         this.camera.shake(0.02, 200);
         if (this.vidasTotal == 0) {
-            this.game.state.start('Play')
+            this.game.state.start('GameOver')
         }
+    }
+    playerTransport() {
+        this.player.x = 1581
+        this.player.y = 136
+        this.camera.shake(0.02, 200);
     }
 
     render() {
