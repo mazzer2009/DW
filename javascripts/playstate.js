@@ -374,20 +374,17 @@ class PlayState extends Phaser.State {
         player.posicao.x = this.player.x;
         player.posicao.y = this.player.y;
 
-        /*this.request = {
-            id: Config.PLAYER,
-            game: Config.GAME,
-            op: "save-state",
-            data: {
-                password: Config.PASSWORD,
-                coordinate: {
-                    x: this.player.x, y: this.player.y
-                },
-                score: Config.SCORE,
-                lifes: Config.VIDAS
-            }
-        };
-        ServerComm.ajaxPost(request);*/
+
+        Config.PROFILE.data.score = this.score
+        Config.PROFILE.data.lifes = this.vidasTotal
+        Config.PROFILE.data.level = Config.LEVEL
+        Config.PROFILE.data.coordinate.x=player.posicao.x
+        Config.PROFILE.data.coordinate.y=player.posicao.y
+
+
+        var request = Config.PROFILE;
+        request.op = "save-state";
+        ServerComm.ajaxPost(request);
     }
 
     collectCoin(player, coin) {
