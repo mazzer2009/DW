@@ -12,6 +12,7 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('coin', `${dir}coins2.png`, 16, 17);
         this.game.load.spritesheet('nuvem', `${dir}check.png`, 18, 18);
         this.game.load.spritesheet('planta', `${dir}planta.png`, 18, 18);
+        this.game.load.spritesheet('plantagelo', `${dir}planta_gelo_16x52.png`, 16, 17);
         this.game.load.spritesheet('vida', `${dir}vida.png`, 16, 16);
         this.game.load.spritesheet('canhao', `${dir}canhao.png`, 16, 16);
         this.game.load.spritesheet('bala', `${dir}bala.png`, 21, 20);
@@ -35,6 +36,8 @@ class PlayState extends Phaser.State {
         if (Config.LEVEL == 2) {
             this.player = new Player(this.game, this.keys, 10, 3000, 'dude');
             console.log("level 2")
+            this.player.posicao.x = 10;
+            this.player.posicao.y = 3000;
         } else {
             this.player = new Player(this.game, this.keys, 5, 5, 'dude');
         }
@@ -68,6 +71,10 @@ class PlayState extends Phaser.State {
         this.map.setCollisionBetween(393, 393, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(1255, 1260, true, 'Camada de Tiles 1');
         this.map.setCollisionBetween(1311, 1313, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(905, 907, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(959, 961, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(1118, 1120, true, 'Camada de Tiles 1');
+        this.map.setCollisionBetween(1172, 1174, true, 'Camada de Tiles 1');
         this.mapLayer.resizeWorld();
 
         this.trapsLayer = this.map.createLayer('Traps');
@@ -84,6 +91,11 @@ class PlayState extends Phaser.State {
     createPlanta() {
         this.planta = this.game.add.group();
         this.map.createFromObjects('Inimigos', 1358, 'planta', 0, true, false, this.planta, Planta);
+    }
+
+    createPlantaGelo() {
+        this.plantaGelo = this.game.add.group();
+        this.map.createFromObjects('Coins', 1389, 'plantagelo', 0, true, false, this.plantaGelo, Plantagelo);
     }
 
     createCanhao() {
@@ -178,6 +190,9 @@ class PlayState extends Phaser.State {
         this.bg.tileScale.setTo(1.2, 1.2);
         this.bg.fixedToCamera = true;
 
+        if(Config.LEVEL==3){
+        }
+
 
 
         this.keys = this.game.input.keyboard.createCursorKeys();
@@ -199,6 +214,7 @@ class PlayState extends Phaser.State {
         this.createCoins();
         this.createPlayer();
         this.createPlanta();
+        this.createPlantaGelo();
         this.createLava();
         //this.createBala();
         this.createCanhao();
@@ -281,8 +297,10 @@ class PlayState extends Phaser.State {
 
              this.bg2.tilePosition.x = -this.game.camera.x / 6
              this.bg2.tilePosition.y = -this.game.camera.y / 4
-        }else{
+        }else if(Config.LEVEL==1){
             this.bg.tileScale.setTo(0.8, 0.8);
+        }else{
+            this.bg.tileScale.setTo(0.5, 0.55);
         }
         
 
@@ -322,7 +340,7 @@ class PlayState extends Phaser.State {
         Config.SCORE = this.score
         Config.VIDAS = this.vidasTotal
         this.game.camera.onFadeComplete.removeAll(this)// bug
-        if (Config.LEVEL <= 2)
+        if (Config.LEVEL <= 3)
             this.game.state.restart()
         else
             this.game.state.start('Title')
