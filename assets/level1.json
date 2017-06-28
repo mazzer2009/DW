@@ -15,6 +15,7 @@
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Lava",
          "objects":[
                 {
@@ -548,11 +549,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Coins",
          "objects":[
                 {
@@ -3318,11 +3321,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Inimigos",
          "objects":[
                 {
@@ -3612,6 +3617,7 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -3628,6 +3634,7 @@
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Next level",
          "objects":[
                 {
@@ -3645,11 +3652,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }, 
         {
          "draworder":"topdown",
+         "height":0,
          "name":"Canhao",
          "objects":[
                 {
@@ -3695,13 +3704,13 @@
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
+         "width":0,
          "x":0,
          "y":0
         }],
  "nextobjectid":720,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.0.1",
  "tileheight":16,
  "tilesets":[
         {
@@ -3835,7 +3844,6 @@
          "tilewidth":16
         }],
  "tilewidth":16,
- "type":"map",
  "version":1,
  "width":200
 }
