@@ -76,7 +76,7 @@ class PlayState extends Phaser.State {
         this.mapLayer.resizeWorld();
 
         this.trapsLayer = this.map.createLayer('Traps');
-      
+
         this.map.setCollision([829], true, 'Traps');
         this.map.setCollision([830], true, 'Traps');
         this.map.setCollision([1263], true, 'Traps');
@@ -136,7 +136,7 @@ class PlayState extends Phaser.State {
         this.map.createFromObjects('Coins', 1357, 'vida', 0, true, false, this.vidas, Vida);
     }
 
-     createDiamante() {
+    createDiamante() {
         this.diamante = this.game.add.group();
         this.map.createFromObjects('Coins', 1392, 'diamante', 0, true, false, this.diamante, Diamante);
     }
@@ -206,7 +206,7 @@ class PlayState extends Phaser.State {
         this.bg.tileScale.setTo(1.2, 1.2);
         this.bg.fixedToCamera = true;
 
-        if(Config.LEVEL==3){
+        if (Config.LEVEL == 3) {
         }
 
 
@@ -312,18 +312,18 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.overlap(this.player, this.plantaGelo, this.playerDied, null, this);
         this.game.physics.arcade.overlap(this.player, this.teleport, this.playerTransport, null, this);
 
-         if (Config.LEVEL == 2) {
+        if (Config.LEVEL == 2) {
             this.bg.tilePosition.x = -this.game.camera.x / 3
             this.bg.tilePosition.y = -this.game.camera.y / 2
 
-             this.bg2.tilePosition.x = -this.game.camera.x / 6
-             this.bg2.tilePosition.y = -this.game.camera.y / 4
-        }else if(Config.LEVEL==1){
+            this.bg2.tilePosition.x = -this.game.camera.x / 6
+            this.bg2.tilePosition.y = -this.game.camera.y / 4
+        } else if (Config.LEVEL == 1) {
             this.bg.tileScale.setTo(0.8, 0.8);
-        }else{
+        } else {
             this.bg.tileScale.setTo(0.5, 0.55);
         }
-        
+
 
 
     }
@@ -333,7 +333,7 @@ class PlayState extends Phaser.State {
 
     }
 
-     touchEnemie(player, enemie) {
+    touchEnemie(player, enemie) {
         if (this.player.body.velocity.y > 0) { // kill enemies when hero is falling
             //enemie.kill();
             enemie.enemieKill();
@@ -361,12 +361,11 @@ class PlayState extends Phaser.State {
         Config.SCORE = this.score
         Config.VIDAS = this.vidasTotal
         this.game.camera.onFadeComplete.removeAll(this)// bug
-        if (Config.LEVEL <= 3){
-            
+        if (Config.LEVEL <= 3) {
+
             this.game.state.start('win')
             this.game.state.restart()
-        }
-        else{
+        } else {
             this.game.state.start('win')
         }
     }
@@ -380,13 +379,15 @@ class PlayState extends Phaser.State {
         Config.PROFILE.data.score = this.score
         Config.PROFILE.data.lifes = this.vidasTotal
         Config.PROFILE.data.level = Config.LEVEL
-        Config.PROFILE.data.coordinate.x=player.posicao.x
-        Config.PROFILE.data.coordinate.y=player.posicao.y
+        Config.PROFILE.data.coordinate.x = player.posicao.x
+        Config.PROFILE.data.coordinate.y = player.posicao.y
 
 
         var request = Config.PROFILE;
         request.op = "save-state";
-        ServerComm.ajaxPost(request);
+        ServerComm.ajaxPost(request, function (data) {
+            console.log(data)
+        });
     }
 
     collectCoin(player, coin) {
@@ -394,7 +395,6 @@ class PlayState extends Phaser.State {
         this.addScore(coin.points);
         if(Config.SCORE == 1){
             this.trophy.show('first coin');
-            
         }
     }
 
