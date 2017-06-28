@@ -80,6 +80,8 @@ class PlayState extends Phaser.State {
         this.trapsLayer = this.map.createLayer('Traps');
         this.map.setCollision([829], true, 'Traps');
         this.map.setCollision([830], true, 'Traps');
+        this.map.setCollision([1263], true, 'Traps');
+        this.map.setCollision([1317], true, 'Traps');
         this.map.setCollision([771, 825, 879, 710], true, 'Traps');
         //this.map.setCollision([1369],true, "Canhao");
     }
@@ -290,6 +292,7 @@ class PlayState extends Phaser.State {
         this.game.physics.arcade.collide(this.mapLayer, this.ossos, this.destroiOsso, null, this);
         this.game.physics.arcade.collide(this.player, this.esqueletos2, this.playerDied, null, this);
         this.game.physics.arcade.collide(this.player, this.esqueletos, this.touchEnemie, null, this);
+        this.game.physics.arcade.collide(this.player, this.plantaGelo, this.playerDied, null, this);
 
          if (Config.LEVEL == 2) {
             this.bg.tilePosition.x = -this.game.camera.x / 3

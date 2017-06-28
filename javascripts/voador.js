@@ -18,8 +18,8 @@ class Voador extends Phaser.Sprite {
         this.targetY -= this.height
 
         let tweenA = this.game.add.tween(this)
-            .to( { x: this.targetX, y: this.targetY }, 3000, Phaser.Easing.Linear.None )
-            .to( { x: this.x, y: this.y }, 3000, Phaser.Easing.Linear.None)
+            .to( { x: this.targetX, y: this.targetY }, 3000, "Quart.easeInOut" )
+            .to( { x: this.x, y: this.y }, 3000, "Quart.easeInOut" )
             .loop(-1)
             .start()
     }
