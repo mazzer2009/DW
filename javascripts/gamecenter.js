@@ -93,7 +93,7 @@ class ServerComm {
     }
 
     static ajaxPost(data, callback) {
-        let url = 'http://localhost:8888/games';
+        let url = '/games';
         $.post(url, JSON.stringify(data))
                 .done(function (data, status) {
                     callback(data);
