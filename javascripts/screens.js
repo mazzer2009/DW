@@ -138,7 +138,7 @@ class GameOver extends GameState {
         // preparar o jogo
         // reset de highscore e controle de carregamento de estado do servidor
         Config.SCORE = 0
-        Config.LEVEL = 3
+        Config.LEVEL = 1
 
         // evitar bug de levar o callback para outra tela (state)
         this.game.camera.onFadeComplete.removeAll(this)
@@ -211,7 +211,7 @@ class Win extends GameState {
         // preparar o jogo
         // reset de highscore e controle de carregamento de estado do servidor
         Config.SCORE = 0
-        Config.LEVEL = 3
+        Config.LEVEL = 1
 
         // evitar bug de levar o callback para outra tela (state)
         this.game.camera.onFadeComplete.removeAll(this)
