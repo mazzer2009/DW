@@ -48,7 +48,7 @@ class ServerComm {
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
-                ServerComm.populateProfile(data);
+                ServerComm.populateProfile(data.data);
             } else {
                 alert("Credenciais inválidas!");
             }
@@ -67,14 +67,13 @@ class ServerComm {
             }
         }
         ServerComm.ajaxPost(request, function (data) {
-            console.log(data);
             if (data.response === "ok" && data.data.password === strPassword) {
                 Config.PLAYER = strLogin;
                 Config.PASSWORD = strPassword;
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
-                ServerComm.populateProfile(data);
+                ServerComm.populateProfile(data.data);
             } else {
                 alert("Credenciais inválidas!");
             }
@@ -83,7 +82,7 @@ class ServerComm {
 
     static populateProfile(data) {
         Config.PROFILE.id = data.id;
-        Config.PROFILE.data.password = data.data.password;
+        Config.PROFILE.data.password = data.password;
     }
 
     static ajaxPost(data, callback) {
