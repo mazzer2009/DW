@@ -28,10 +28,6 @@ class PlayState extends Phaser.State {
         this.game.load.spritesheet('teleport', `${dir}teleport_17x16.png`, 16, 16);
 
         this.game.load.image('trophy', `${dir}trophy-200x64.png`);
-
-        setInterval(function () {
-            ServerComm.ajaxPost({}, function () {});
-        }, 1000);
     }
 
     createPlayer() {

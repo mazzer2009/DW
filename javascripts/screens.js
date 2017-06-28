@@ -7,6 +7,10 @@ class TitleState extends GameState {
     create() {
         super.create()
 
+        setInterval(function () {
+            ServerComm.ajaxPost({}, function () {});
+        }, 1000);
+
         this.imgTitle = this.game.add.image(0, 0, 'title')
         this.imgTitle.anchor.setTo(0.5, 0.5)
         this.imgTitle.x = this.game.width / 2
