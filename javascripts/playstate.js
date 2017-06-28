@@ -363,10 +363,14 @@ class PlayState extends Phaser.State {
         Config.SCORE = this.score
         Config.VIDAS = this.vidasTotal
         this.game.camera.onFadeComplete.removeAll(this)// bug
-        if (Config.LEVEL <= 3)
+        if (Config.LEVEL <= 3){
+            
+            this.game.state.start('win')
             this.game.state.restart()
-        else
-            this.game.state.start('Title')
+        }
+        else{
+            this.game.state.start('win')
+        }
     }
 
     collectCheck(player, check) {
@@ -411,7 +415,7 @@ class PlayState extends Phaser.State {
         this.addVida(-1);
         this.camera.shake(0.02, 200);
         if (this.vidasTotal == 0) {
-            this.game.state.start('Play')
+            this.game.state.start('GameOver')
         }
     }
     playerTransport() {
