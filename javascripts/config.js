@@ -12,18 +12,19 @@ Config.LEVEL = 1
 Config.SCORE = 0
 Config.VIDAS = 3
 Config.GAME = "marioevolution"
-Config.PLAYER = "rmeloca"
-Config.PASSWORD = "meloca"
-Config.SCREENSHOTS = [];
 Config.PROFILE = {
     id: "",
-    game: "",
+    game: "marioevolution",
     data: {
         password: "",
         score: 0,
-        vidas: 0,
+        lifes: 0,
         level: 0,
+        coordinate: {
+            x: 0,
+            y: 0
+        },
         trophies: [],
         screenshots: []
     }
-}
+};

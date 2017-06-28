@@ -20,11 +20,10 @@ class Trophy extends Phaser.Sprite {
 
     updateAchievedTrophies(json) {
         // coloca os nomes dos trofeus na lista de controle: this.achieved
-        json.data.forEach(function (item) {
-            console.log(item);
-            this.achieved.push(item);
-            this.addTrophyOnPage(item);
-        });
+        for (var i = 0; i < json.data.length; i++) {
+            this.achieved.push(json.data[i]);
+            this.addTrophyOnPage(json.data[i]);
+        }
     }
 
     createPanel(trophyName) {
@@ -62,7 +61,6 @@ class Trophy extends Phaser.Sprite {
     }
 
     onServerResponse(response, trophyName) {
-        console.log(response);
         if (response['response'] !== 'ok') {
             console.log("ERRO de comunicao com o servidor");
             return
