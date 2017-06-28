@@ -1,7 +1,7 @@
 class TitleState extends GameState {
     preload() {
         let dir = Config.ASSETS
-        this.game.load.image('title', `${dir}RomuloLeproso.png`);
+        this.game.load.image('title', `${dir}title.png`);
     }
 
     create() {
