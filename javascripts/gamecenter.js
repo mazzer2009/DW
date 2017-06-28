@@ -14,10 +14,10 @@ class ServerComm {
     // metodo generico a ser usado por todas as 
     // requisicoes de trofeus
     static sendRequestTrophy(opName, opData, callback) {
-        opData.password = Config.PASSWORD;
+        opData.password = Config.PROFILE.data.password;
         let data = {
-            id: Config.PLAYER,
-            game: Config.GAME,
+            id: Config.PROFILE.id,
+            game: Config.PROFILE.game,
             op: opName,
             data: opData
         };
@@ -43,8 +43,8 @@ class ServerComm {
         }
         ServerComm.ajaxPost(request, function (data) {
             if (data.response === "ok") {
-                Config.PLAYER = strLogin;
-                Config.PASSWORD = strPassword;
+                Config.PROFILE.id = strLogin;
+                Config.PROFILE.id = strPassword;
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
@@ -68,8 +68,8 @@ class ServerComm {
         }
         ServerComm.ajaxPost(request, function (data) {
             if (data.response === "ok" && data.data.password === strPassword) {
-                Config.PLAYER = strLogin;
-                Config.PASSWORD = strPassword;
+                Config.PROFILE.id = strLogin;
+                Config.PROFILE.data.password = strPassword;
                 let button = $("#form-login-button");
                 button.attr("onclick", "ServerComm.logout()");
                 button.html('<span class="glyphicon glyphicon-log-in"></span>Logout');
@@ -83,6 +83,13 @@ class ServerComm {
     static populateProfile(data) {
         Config.PROFILE.id = data.id;
         Config.PROFILE.data.password = data.password;
+        Config.PROFILE.data.score = data.score;
+        Config.PROFILE.data.lifes = data.lifes;
+        Config.PROFILE.data.level = data.level;
+        Config.PROFILE.data.coordinate.x = data.coordinate.x;
+        Config.PROFILE.data.coordinate.y = data.coordinate.y;
+        Config.PROFILE.data.screenshots = data.screenshots;
+        Config.PROFILE.data.trophies = data.trophies;
     }
 
     static ajaxPost(data, callback) {

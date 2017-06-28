@@ -3,7 +3,7 @@ class Trophy extends Phaser.Sprite {
         super(game, 0, 0, '');
         this.data = {};
         this.data['first coin'] = {
-            name: 'first coinh',
+            name: 'first coin',
             xp: 10,
             title: 'First Coin',
             description: 'The adventure begins'
@@ -57,7 +57,7 @@ class Trophy extends Phaser.Sprite {
             return;
         }
 
-        ServerComm.addTrophy(this.data['first death'], (response) => this.onServerResponse(response, trophyName))
+        ServerComm.addTrophy(this.data['first coin'], (response) => this.onServerResponse(response, trophyName))
     }
 
     onServerResponse(response, trophyName) {
