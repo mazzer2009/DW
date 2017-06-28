@@ -391,9 +391,8 @@ class PlayState extends Phaser.State {
     collectCoin(player, coin) {
         coin.destroy();
         this.addScore(coin.points);
-        if (Config.SCORE == 1) {
-            this.trophy.show('First Coin');
-
+        if(Config.SCORE == 1){
+            this.trophy.show('first coin');
         }
     }
 
