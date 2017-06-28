@@ -2,11 +2,11 @@ class Trophy extends Phaser.Sprite {
     constructor(game) {
         super(game, 0, 0, '');
         this.data = {};
-        this.data['first death'] = {
-            name: 'first death',
+        this.data['first coin'] = {
+            name: 'first coinh',
             xp: 10,
-            title: 'KEEP CALM AND PLAY',
-            description: 'First death on game'
+            title: 'First Coin',
+            description: 'The adventure begins'
         };
 
         this.panels = []; // fila de paineis de trofeus

@@ -393,7 +393,10 @@ class PlayState extends Phaser.State {
     collectCoin(player, coin) {
         coin.destroy();
         this.addScore(coin.points);
-        this.trophy.show('first death');
+        if(Config.SCORE == 1){
+            this.trophy.show('First Coin');
+            
+        }
     }
 
     collectVida(player, vida) {
