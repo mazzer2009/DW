@@ -49,15 +49,15 @@ class TitleState extends GameState {
     }
 
     startFade() {
-        if (!this.pressed) {
+    /*    if (!this.pressed) {
             if(Config.PROFILE.id===""){
                 alert("Login to begin")
                 return
-        }
+        }*/
             this.pressed = true
             this.game.camera.fade(0x000000, 1000)
             this.game.camera.onFadeComplete.add(this.startGame, this)
-        }
+        //}
     }
 
     startGame() {
@@ -123,15 +123,15 @@ class GameOver extends GameState {
     }
 
     startFade() {
-        if (!this.pressed) {
+        /*if (!this.pressed) {
               if(Config.PROFILE.id===""){
                 alert("Login to begin")
                 return
-        }
+        }*/
             this.pressed = true
             this.game.camera.fade(0x000000, 1000)
             this.game.camera.onFadeComplete.add(this.startGame, this)
-        }
+        //}
     }
 
     startGame() {
@@ -196,15 +196,15 @@ class Win extends GameState {
     }
 
     startFade() {
-        if (!this.pressed) {
+        /*if (!this.pressed) {
              if(Config.PROFILE.id===""){
                 alert("Login to begin")
                 return
-        }
+        }*/
             this.pressed = true
             this.game.camera.fade(0x000000, 1000)
             this.game.camera.onFadeComplete.add(this.startGame, this)
-        }
+        //}
     }
 
     startGame() {
